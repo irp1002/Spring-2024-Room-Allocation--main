@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: edu.sru.group7.roomallocation.RoomallocationApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.37 s -- in edu.sru.group7.roomallocation.RoomallocationApplicationTests

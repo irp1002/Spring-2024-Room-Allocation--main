@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Room List</title>
+<!-- Add Bootstrap CSS link here -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+	crossorigin="anonymous"></script>
+
+<style>
+table, th, td {
+	border: solid;
+}
+</style>
+</head>
+<body>
+
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col">
+				<h2>Rooms</h2>
+				<table class="table table-striped">
+					<thead>
+						<tr class="table-success">
+							<th scope="col">Room Number</th>
+							<th scope="col">Building Name</th>
+							<th scope="col">Space Name</th>
+							<th scope="col">Image</th>
+							<th scope="col">Facilities</th>
+							<th scope="col">Structural Features</th>
+							<th scope="col">Classroom Features</th>
+							<th scope="col">Computer Lab Features</th>
+							<th scope="col">Edit</th>
+							<th scope="col">Delete</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="room : ${rooms}">
+							<td th:text="${room.roomNumber}"></td>
+							<td th:text="${room.buildingName}"></td>
+							<td th:text="${room.spaceName}"></td>
+							<!-- Add other columns -->
+							<td><img th:if="${room.image != null}"
+								th:src="@{'data:image/jpeg;base64,' + ${room.image}}"
+								alt="Room Image" /></td>
+							<!-- Add other columns -->
+
+							<td>
+								<!-- The facilities data -->
+								<ul>
+									<li><b>Space Use Code: </b><span
+										th:text="${room.facilities.spaceUseCode.getDisplayName()}"></span></li>
+									<li><b>Space Condition: </b><span
+										th:text="${room.facilities.spaceCondition}"></span></li>
+									<li><b>Net Square Footage: </b><span
+										th:text="${room.facilities.netSquareFootage}"></span></li>
+									<li><b>Number Stations: </b><span
+										th:text="${room.facilities.numberStations}"></span></li>
+									<li><b>Number ADA Stations: </b><span
+										th:text="${room.facilities.numberADAStation}"></span></li>
+									<li><b>Furniture: </b><span
+										th:text="${room.facilities.furniture}"></span></li>
+									<li><b>Max Occupant Cap: </b><span
+										th:text="${room.facilities.maxOccupantCap}"></span></li>
+									<li><b>Fire Cap: </b><span
+										th:text="${room.facilities.fireCap}"></span></li>																			
+								</ul>
+							</td>
+							
+							<td>
+							<!-- The Structural Architectural data -->
+								<ul>
+									<li><b>Structural Features: </b><span
+										th:text="${room.structuralArchitecturalFeatures.structuralFeatures.getDisplayName()}"></span></li>
+									<li><b>Special Characters: </b><span
+										th:text="${room.structuralArchitecturalFeatures.specialCharacters}"></span></li>
+									<li><b>Communication: </b><span
+										th:text="${room.structuralArchitecturalFeatures.communication}"></span></li>
+									<li><b>Electrical Service: </b><span
+										th:text="${room.structuralArchitecturalFeatures.electricalServ}"></span></li>
+									<li><b>Gas Service: </b><span
+										th:text="${room.structuralArchitecturalFeatures.gasServ}"></span></li>
+									<li><b>Sp Plumbing Service: </b><span
+										th:text="${room.structuralArchitecturalFeatures.spPlumbingServ}"></span></li>
+									<li><b>Temp Con Service: </b><span
+										th:text="${room.structuralArchitecturalFeatures.tempConServ}"></span></li>
+									<li><b>Ventilating Service: </b><span
+										th:text="${room.structuralArchitecturalFeatures.ventilatingServ}"></span></li>	
+									<li><b>Water Service: </b><span
+										th:text="${room.structuralArchitecturalFeatures.waterServ}"></span></li>	
+									<li><b>Notes: </b><span
+										th:text="${room.structuralArchitecturalFeatures.notes}"></span></li>																	
+								</ul>
+							</td>
+							
+							<!--  ClassroomITFeatures data -->
+							<td>
+								<!--<ul>
+									<li><b>Zoom: </b><span
+										th:text="${room.classRoomITFeatures.zoom}"></span></li>
+									<li><b>Podium Station Type: </b><span
+										th:text="${room.classRoomITFeatures.podiumStationType}"></span></li>
+									<li><b>Console Computer Model: </b><span
+										th:text="${room.classRoomITFeatures.consoleCompModel}"></span></li>
+									<li><b>Console Computer Warranty: </b><span
+										th:text="${room.classRoomITFeatures.consoleCompWarranty}"></span></li>
+									<li><b>Number of Projectors: </b><span
+										th:text="${room.classRoomITFeatures.numberProj}"></span></li>
+									<li><b>Projector Display Type: </b><span
+										th:text="${room.classRoomITFeatures.projDisplayType}"></span></li>	
+									<li><b>Projector Make & Model Number 1: </b><span
+										th:text="${room.classRoomITFeatures.projModelNumber}"></span></li>	
+									<li><b>Projector IP Address 1: </b><span
+										th:text="${room.classRoomITFeatures.projIPAddress}"></span></li>
+									<li><b>Projector 1 Install: </b><span
+										th:text="${room.classRoomITFeatures.projInstall}"></span></li>
+									<li><b>Creston Model: </b><span
+										th:text="${room.classRoomITFeatures.crestonModel}"></span></li>
+									<li><b>Creston Serial Model: </b><span
+										th:text="${room.classRoomITFeatures.crestonSerialNumber}"></span></li>
+									<li><b>Creston IP Address: </b><span
+										th:text="${room.classRoomITFeatures.crestonIPAddress}"></span></li>	
+									<li><b>Audio Description: </b><span
+										th:text="${room.classRoomITFeatures.audioDesc}"></span></li>
+									<li><b>Voice Lift: </b><span
+										th:text="${room.classRoomITFeatures.voiceLift}"></span></li>
+									<li><b>Number of IWB Install: </b><span
+										th:text="${room.classRoomITFeatures.iwbInstall}"></span></li>
+														
+								</ul>-->
+							</td>
+							
+							<!--  ComputerlabITfeatures data -->
+							<td>
+								<ul>
+									<li><b>N0 of Desktops: </b><span
+										th:text="${room.computerLabIT.getNumberDesktopComp()}"></span></li>
+									<li><b>Computer OS </b><span
+										th:text="${room.computerLabIT.getDesktopCompOS()}"></span></li>
+									<li><b>Communication: </b><span
+										th:text="${room.computerLabIT.getDesktopCompApp()}"></span></li>
+									<li><b>Electrical Service: </b><span
+										th:text="${room.computerLabIT.getDesktopCompInstall()}"></span></li>
+									<li><b>Gas Service: </b><span
+										th:text="${room.computerLabIT.getComputerDesksDesc()}"></span></li>
+									<li><b>Sp Plumbing Service: </b><span
+										th:text="${room.computerLabIT.wireAccPt()}"></span></li>
+									<li><b>Temp Con Service: </b><span
+										th:text="${room.computerLabIT.getDataCabling()}"></span></li>
+									<li><b>Ventilating Service: </b><span
+										th:text="${room.computerLabIT.getFloorBoxes()}"></span></li>	
+									<li><b>Water Service: </b><span
+										th:text="${room.computerLabIT.getUniqueFeatures()}"></span></li>	
+									<li><b>Notes: </b><span
+										th:text="${room.structuralArchitecturalFeatures.notes}"></span></li>																	
+								</ul>
+							</td>
+							
+							
+							<td><a class="btn btn-warning"
+								th:href="@{/edit/{id}(id=${room.id})}">Edit</a></td>
+							<td><a class="btn btn-danger"
+								th:href="@{/delete/{id}(id=${room.id})}">Delete</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<p>
+					<a class="btn btn-success" th:href="@{/signup}">Add a new room</a>
+				</p>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

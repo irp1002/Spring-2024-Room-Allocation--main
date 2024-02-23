@@ -1,0 +1,18 @@
+package edu.sru.group7.roomallocation.repositories;
+
+import org.springframework.data.repository.CrudRepository;
+import edu.sru.group7.roomallocation.domain.Rooms;
+
+
+
+
+public interface RoomsRepository extends CrudRepository <Rooms, Integer>{
+	
+	/*public interface RoomsRepository extends CrudRepository <Rooms, Integer>{
+	
+	List<Rooms> findAllByBuildingId(Integer buildingId);
+
+	 @Query("SELECT r FROM Rooms r JOIN FETCH r.facilities f JOIN FETCH r.structuralArchitecturalFeatures s WHERE r.id = :roomId")
+	 Rooms findRoomWithFacilitiesAndStructuralFeatures(@Param("roomId") Integer roomId); */
+
+}

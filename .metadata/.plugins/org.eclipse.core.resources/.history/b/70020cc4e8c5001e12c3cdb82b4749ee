@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Room List</title>
+<!-- Add Bootstrap CSS link here -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+	crossorigin="anonymous"></script>
+<link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+
+<style>
+table, th, td {
+	border: solid;
+}
+</style>
+</head>
+<body>
+
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col">
+				<h2>Rooms</h2>
+				<table class="table table-striped">
+					<thead>
+						<tr class="table-success">
+							<th scope="col">Room Number</th>
+							<th scope="col">Building Name</th>
+							<th scope="col">Space Name</th>
+							<th scope="col">Image</th>
+							<th scope="col">Facilities</th>
+							<th scope="col">Structural Features</th>
+							<th scope="col">Classroom Features</th>
+							<th scope="col">Computer Lab Features</th>
+							<th scope="col">Edit</th>
+							<th scope="col">Delete</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="room : ${rooms}">
+							<td th:text="${room.roomNumber}"></td>
+							<td th:text="${room.buildingName}"></td>
+							<td th:text="${room.spaceName}"></td>
+							<!-- Add other columns -->
+							<td><img th:if="${room.image != null}"
+								th:src="@{'data:image/jpeg;base64,' + ${room.image}}"
+								alt="Room Image" /></td>
+							<!-- Add other columns -->
+
+							<td>
+								<!-- The facilities data -->
+								<ul>
+									<li><b>Space Use Code: </b><span
+										th:text="${room.facilities.spaceUseCode.getDisplayName()}"></span></li>
+									<li><b>Space Condition: </b><span
+										th:text="${room.facilities.spaceCondition}"></span></li>
+									<li><b>Net Square Footage: </b><span
+										th:text="${room.facilities.netSquareFootage}"></span></li>
+									<li><b>Number Stations: </b><span
+										th:text="${room.facilities.numberStations}"></span></li>
+									<li><b>Number ADA Stations: </b><span
+										th:text="${room.facilities.numberADAStation}"></span></li>
+									<li><b>Furniture: </b><span
+										th:text="${room.facilities.furniture}"></span></li>
+									<li><b>Max Occupant Cap: </b><span
+										th:text="${room.facilities.maxOccupantCap}"></span></li>
+									<li><b>Fire Cap: </b><span
+										th:text="${room.facilities.fireCap}"></span></li>																			
+								</ul>
+							</td>
+							
+							<!-- The Structural Architectural data -->
+							
+							
+							
+							<!--  ClassroomITFeatures data -->
+							
+							
+							
+							<!--  ComputerlabITfeatures data -->
+							
+							
+							
+							<td><a class="btn btn-warning"
+								th:href="@{/edit/{id}(id=${room.id})}">Edit</a></td>
+							<td><a class="btn btn-danger"
+								th:href="@{/delete/{id}(id=${room.id})}">Delete</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<p>
+					<a class="btn btn-success" th:href="@{/signup}">Add a new room</a>
+				</p>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

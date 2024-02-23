@@ -1,0 +1,393 @@
+
+package edu.sru.group7.roomallocation.controller;
+
+import java.io.IOException;
+import java.util.*;
+
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import edu.sru.group7.roomallocation.domain.*;
+
+import edu.sru.group7.roomallocation.repositories.*;
+
+@Controller
+public class IndexController {
+
+	@Autowired
+	private RoomsRepository roomsRepository;
+
+	@Autowired
+	private FacilitiesRepository facilitiesRepository;
+
+	@Autowired
+	private ClassRoomITFeaturesRepository classRoomITFeaturesRepository;
+
+	@Autowired
+	private StructuralArchitecturalFeaturesRepository structuralArchitecturalFeaturesRepository;
+
+	@Autowired
+	private ComputerLabITFeaturesRepository computerLabITFeaturesRepository;
+
+	@Autowired
+	private ProjectorRepository projectorRepository;
+
+	@Autowired
+	private SpaceUseCodeRepository spaceUseCodeRepository;
+
+	@Autowired
+	private SpaceConditionRepository spaceConditionRepository;
+
+	@Autowired
+	private FurnitureRepository furnitureRepository;
+
+	@Autowired
+	private StructuralFeaturesRepository structuralFeaturesRepository;
+
+	@Autowired
+	private ZoomRepository zoomRepository;
+
+	@Autowired
+	private ConsoleCompModelRepository consoleCompModelRepository;
+
+	@Autowired
+	private PodiumStationTypeRepository podiumStationTypeRepository;
+
+	@Autowired
+	private ProjDisplayTypeRepository projDisplayTypeRepository;
+
+	@Autowired
+	private ProjMakeModelNumberRepository projMakeModelNumberRepository;
+
+	@Autowired
+	private CrestonModelRepository crestonModelRepository;
+
+	@Autowired
+	private AudioDescRepository audioDescRepository;
+
+	@Autowired
+	private InterWhiteBoardRepository interWhiteBoardRepository;
+
+	@Autowired
+	private BuildingsRepository buildingsRepository;
+
+	public IndexController() {
+	}
+
+	public IndexController(RoomsRepository roomsRepository) {
+		this.roomsRepository = roomsRepository;
+	}
+
+	public IndexController(FacilitiesRepository facilitiesRepository) {
+		this.facilitiesRepository = facilitiesRepository;
+	}
+
+	public IndexController(ClassRoomITFeaturesRepository classRoomITFeaturesRepository) {
+		this.classRoomITFeaturesRepository = classRoomITFeaturesRepository;
+	}
+
+	public IndexController(StructuralArchitecturalFeaturesRepository structuralArchitecturalFeaturesRepository) {
+		this.structuralArchitecturalFeaturesRepository = structuralArchitecturalFeaturesRepository;
+	}
+
+	public IndexController(ComputerLabITFeaturesRepository computerLabITFeaturesRepository) {
+		this.computerLabITFeaturesRepository = computerLabITFeaturesRepository;
+	}
+
+	public IndexController(ProjectorRepository projectorRepository) {
+		this.projectorRepository = projectorRepository;
+	}
+
+	public IndexController(SpaceUseCodeRepository spaceUseCodeRepository) {
+		this.spaceUseCodeRepository = spaceUseCodeRepository;
+	}
+
+	public IndexController(SpaceConditionRepository spaceConditionRepository) {
+		this.spaceConditionRepository = spaceConditionRepository;
+	}
+
+	public IndexController(FurnitureRepository furnitureRepository) {
+		this.furnitureRepository = furnitureRepository;
+	}
+
+	public IndexController(StructuralFeaturesRepository structuralFeaturesRepository) {
+		this.structuralFeaturesRepository = structuralFeaturesRepository;
+	}
+
+	public IndexController(ZoomRepository zoomRepository) {
+		this.zoomRepository = zoomRepository;
+	}
+
+	public IndexController(PodiumStationTypeRepository podiumStationTypeRepository) {
+		this.podiumStationTypeRepository = podiumStationTypeRepository;
+	}
+
+	public IndexController(ConsoleCompModelRepository consoleCompModelRepository) {
+		this.consoleCompModelRepository = consoleCompModelRepository;
+	}
+
+	public IndexController(ProjDisplayTypeRepository projDisplayTypeRepository) {
+		this.projDisplayTypeRepository = projDisplayTypeRepository;
+	}
+
+	public IndexController(ProjMakeModelNumberRepository projMakeModelNumberRepository) {
+		this.projMakeModelNumberRepository = projMakeModelNumberRepository;
+	}
+
+	public IndexController(CrestonModelRepository crestonModelRepository) {
+		this.crestonModelRepository = crestonModelRepository;
+	}
+
+	public IndexController(AudioDescRepository audioDescRepository) {
+		this.audioDescRepository = audioDescRepository;
+	}
+
+	public IndexController(InterWhiteBoardRepository interWhiteBoardRepository) {
+		this.interWhiteBoardRepository = interWhiteBoardRepository;
+	}
+
+	public IndexController(BuildingsRepository buildingsRepository) {
+		this.buildingsRepository = buildingsRepository;
+	}
+
+	// Mapping for the /index URL when initiated through Tomcat
+
+	@RequestMapping({ "", "/", "/index" })
+	public String showRoomList(Model model) {
+		model.addAttribute("rooms", roomsRepository.findAll());
+		model.addAttribute("facilities", facilitiesRepository.findAll());
+		model.addAttribute("structures", structuralArchitecturalFeaturesRepository.findAll());
+		model.addAttribute("classrooms", classRoomITFeaturesRepository.findAll());
+		model.addAttribute("computerlabs", computerLabITFeaturesRepository.findAll());
+		model.addAttribute("projectors", projectorRepository.findAll());
+		return "index";
+	}
+	
+
+
+	// Mapping for the /signup URL - calls the add-room HTML, to add a room
+
+	@RequestMapping({ "/signup" })
+	public String showSignUpForm(Rooms room, Model model) {
+
+		// Makes a list of content in SpaceUseCode class
+		List<SpaceUseCode> spaceUseCodes = (List<SpaceUseCode>) spaceUseCodeRepository.findAll();
+		model.addAttribute("spaceUseCodes", spaceUseCodes);
+
+		// Makes a list of content in SpaceCondition class
+		List<SpaceCondition> spaceConditions = (List<SpaceCondition>) spaceConditionRepository.findAll();
+		model.addAttribute("spaceConditions", spaceConditions);
+
+		// Makes a list of content in Furniture class
+		List<Furniture> furnitures = (List<Furniture>) furnitureRepository.findAll();
+		model.addAttribute("furnitures", furnitures);
+
+		// Makes a list of content in StructuralFeatures class
+		List<StructuralFeatures> structuralFeatures = (List<StructuralFeatures>) structuralFeaturesRepository.findAll();
+		model.addAttribute("structuralFeatures", structuralFeatures);
+
+		// Makes a list of content in Zoom class
+		List<Zoom> zoom = (List<Zoom>) zoomRepository.findAll();
+		model.addAttribute("zoom", zoom);
+
+		// Makes a list of content in PodiumStationType class
+		List<PodiumStationType> podiumStationTypes = (List<PodiumStationType>) podiumStationTypeRepository.findAll();
+		model.addAttribute("podiumStationTypes", podiumStationTypes);
+
+		// Makes a list of content in ConsoleCompModel class
+		List<ConsoleCompModel> consoleCompModels = (List<ConsoleCompModel>) consoleCompModelRepository.findAll();
+		model.addAttribute("consoleCompModels", consoleCompModels);
+
+		// Makes a list of content in ProjDisplayType class
+		List<ProjDisplayType> projDisplayTypes = (List<ProjDisplayType>) projDisplayTypeRepository.findAll();
+		model.addAttribute("projDisplayTypes", projDisplayTypes);
+
+		// Makes a list of content in ProjMakeModelNumber class
+		List<ProjMakeModelNumber> projMakeModelNumbers = (List<ProjMakeModelNumber>) projMakeModelNumberRepository
+				.findAll();
+		model.addAttribute("projMakeModelNumbers", projMakeModelNumbers);
+
+		// Makes a list of content in CrestonModel class
+		List<CrestonModel> crestonModels = (List<CrestonModel>) crestonModelRepository.findAll();
+		model.addAttribute("crestonModels", crestonModels);
+
+		// Makes a list of content in AudioDesc class
+		List<AudioDesc> audioDescs = (List<AudioDesc>) audioDescRepository.findAll();
+		model.addAttribute("audioDescs", audioDescs);
+
+		// Makes a list of content in InterWhiteBoard class
+		List<InterWhiteBoard> interWhiteBoards = (List<InterWhiteBoard>) interWhiteBoardRepository.findAll();
+		model.addAttribute("interWhiteBoards", interWhiteBoards);
+
+		// Makes a list of content In Buildings class
+		List<Buildings> buildings = (List<Buildings>) buildingsRepository.findAll();
+		model.addAttribute("buildings", buildings);
+
+		return "add-room";
+	}
+
+	// Mapping for the /addroom URL - to add a room
+
+	@RequestMapping({ "/addroom" })
+	public String addRoom(@Validated Rooms room, BindingResult result, Model model,
+			@RequestParam("imageFile") MultipartFile imageFile) {
+		if (result.hasErrors()) {
+			return "add-room";
+		}
+
+		try {
+			// Check if an image file is provided
+			if (!imageFile.isEmpty()) {
+				// Get file extension
+				String fileExtension = FilenameUtils.getExtension(imageFile.getOriginalFilename());
+
+				// Convert the image data to base64
+				String base64Image = "data:image/" + fileExtension + ";base64,"
+						+ Base64.getEncoder().encodeToString(imageFile.getBytes());
+
+				// Set the base64-encoded image data in the room entity
+				room.setImage(base64Image);
+			}
+
+			// Save the room entity
+			roomsRepository.save(room);
+
+			return "redirect:/index";
+		} catch (IOException e) {
+			// Handle exceptions related to image storage
+			model.addAttribute("error", "Error processing or storing the image.");
+			return "add-room";
+		}
+	}
+
+	// Mapping for the /edit/id URL to edit a room
+
+	@GetMapping("/edit/{id}")
+	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+		Rooms room = roomsRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + id));
+
+		// Makes a list of content in SpaceUseCode class
+		List<SpaceUseCode> spaceUseCodes = (List<SpaceUseCode>) spaceUseCodeRepository.findAll();
+		model.addAttribute("spaceUseCodes", spaceUseCodes);
+
+		// Makes a list of content in SpaceCondition class
+		List<SpaceCondition> spaceConditions = (List<SpaceCondition>) spaceConditionRepository.findAll();
+		model.addAttribute("spaceConditions", spaceConditions);
+
+		// Makes a list of content in Furniture class
+		List<Furniture> furnitures = (List<Furniture>) furnitureRepository.findAll();
+		model.addAttribute("furnitures", furnitures);
+
+		// Makes a list of content in StructuralFeatures class
+		List<StructuralFeatures> structuralFeatures = (List<StructuralFeatures>) structuralFeaturesRepository.findAll();
+		model.addAttribute("structuralFeatures", structuralFeatures);
+
+		// Makes a list of content in Zoom class
+		List<Zoom> zoom = (List<Zoom>) zoomRepository.findAll();
+		model.addAttribute("zoom", zoom);
+
+		// Makes a list of content in PodiumStationType class
+		List<PodiumStationType> podiumStationTypes = (List<PodiumStationType>) podiumStationTypeRepository.findAll();
+		model.addAttribute("podiumStationTypes", podiumStationTypes);
+
+		// Makes a list of content in ConsoleCompModel class
+		List<ConsoleCompModel> consoleCompModels = (List<ConsoleCompModel>) consoleCompModelRepository.findAll();
+		model.addAttribute("consoleCompModels", consoleCompModels);
+
+		// Makes a list of content in ProjDisplayType class
+		List<ProjDisplayType> projDisplayTypes = (List<ProjDisplayType>) projDisplayTypeRepository.findAll();
+		model.addAttribute("projDisplayTypes", projDisplayTypes);
+
+		// Makes a list of content in ProjMakeModelNumber class
+		List<ProjMakeModelNumber> projMakeModelNumbers = (List<ProjMakeModelNumber>) projMakeModelNumberRepository
+				.findAll();
+		model.addAttribute("projMakeModelNumbers", projMakeModelNumbers);
+
+		// Makes a list of content in CrestonModel class
+		List<CrestonModel> crestonModels = (List<CrestonModel>) crestonModelRepository.findAll();
+		model.addAttribute("crestonModels", crestonModels);
+		model.addAttribute("room", room);
+
+		// Makes a list of content in AudioDesc class
+		List<AudioDesc> audioDescs = (List<AudioDesc>) audioDescRepository.findAll();
+		model.addAttribute("audioDescs", audioDescs);
+
+		// Makes a list of content in InterWhiteBoard class
+		List<InterWhiteBoard> interWhiteBoards = (List<InterWhiteBoard>) interWhiteBoardRepository.findAll();
+		model.addAttribute("interWhiteBoards", interWhiteBoards);
+
+		// Makes a list of content in Buildings class
+		List<Buildings> buildings = (List<Buildings>) buildingsRepository.findAll();
+		model.addAttribute("buildings", buildings);
+
+		return "update-room";
+	}
+
+	// Mapping for the /update/id URL to update a room
+
+	@PostMapping("/update/{id}")
+	public String updateRoom(@PathVariable("id") Integer id, @Validated Rooms room, BindingResult result, Model model,
+			@RequestParam("imageFile") MultipartFile imageFile) {
+		if (result.hasErrors()) {
+			room.setId(id);
+			return "update-room";
+		}
+
+		try {
+			// Load the existing room from the database
+			Rooms existingRoom = roomsRepository.findById(id)
+					.orElseThrow(() -> new IllegalArgumentException("Room data not found"));
+
+			// Check if an image file is provided
+			if (!imageFile.isEmpty()) {
+				// Get file extension
+				String fileExtension = FilenameUtils.getExtension(imageFile.getOriginalFilename());
+
+				// Convert the image data to base64
+				String base64Image = "data:image/" + fileExtension + ";base64,"
+						+ Base64.getEncoder().encodeToString(imageFile.getBytes());
+
+				// Set the base64-encoded image data in the room entity
+				room.setImage(base64Image);
+			} else {
+				// If no new image is provided, keep the existing image
+				room.setImage(existingRoom.getImage());
+			}
+
+			// Save the updated room entity
+			roomsRepository.save(room);
+
+			return "redirect:/index";
+		} catch (IOException e) {
+			// Handle exceptions related to image storage
+			model.addAttribute("error", "Error processing or storing the image.");
+			return "update-room";
+		}
+	}
+
+	// Mapping for the /delete/id URL to delete a room
+
+	@GetMapping("/delete/{id}")
+	public String deleteRoom(@PathVariable("id") Integer id, Model model) {
+		Rooms room = roomsRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + id));
+
+		roomsRepository.delete(room);
+
+		return "redirect:/index";
+	}
+	
+}

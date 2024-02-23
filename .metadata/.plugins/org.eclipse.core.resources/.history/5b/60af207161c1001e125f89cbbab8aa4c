@@ -1,0 +1,14 @@
+package edu.sru.group7.roomallocation.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class IndexController {
+	
+	@RequestMapping({"/index"})
+	public String displayIndexPage()
+	{
+		return "index";
+	}
+}

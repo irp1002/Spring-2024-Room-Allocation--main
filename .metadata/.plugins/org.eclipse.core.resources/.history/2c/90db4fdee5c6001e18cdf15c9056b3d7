@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Room</title>
+<!-- Add Bootstrap CSS link here -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+	crossorigin="anonymous"></script>
+</head>
+<body>
+
+	<div class="container mt-5">
+		<form action="#" th:action="@{/addroom}" th:object="${rooms}"
+			method="post" enctype="multipart/form-data">
+		
+		<!--  ADD-ROOM DATA -->
+			<div class="mb-3">
+				<label for="roomNumber">Room Number</label> <input type="text"
+					class="form-control" th:field="*{roomNumber}" id="roomNumber"
+					placeholder="Room Number"> <span
+					th:if="${#fields.hasErrors('roomNumber')}"
+					th:errors="*{roomNumber}"></span>
+			</div>
+			
+			
+			<div class="mb-3">
+				<label for="buildingName">Building Name</label> <input type="text"
+					class="form-control" th:field="*{buildingName}" id="buildingName"
+					placeholder="Building Name"> <span
+					th:if="${#fields.hasErrors('buildingName')}"
+					th:errors="*{buildingName}"></span>
+			</div>
+ 
+			<div class="mb-3">
+				<label for="spaceName">Space Name</label> <input type="text"
+					class="form-control" th:field="*{spaceName}" id="spaceName"
+					placeholder="Space Name"> <span
+					th:if="${#fields.hasErrors('spaceName')}" th:errors="*{spaceName}"></span>
+			</div>
+
+			<div class="mb-3">
+				<label for="imageFile">Room Image:</label> <input type="file"
+					name="imageFile" accept="image/*" />
+			</div>
+
+
+			<!-- Add fields for Facilities class -->
+
+			<!--  Dropdown for Space Condition from Facilities class and SpaceCondition enum class -->
+			<div class="mb-3">
+				<label for="spaceCondition">Select Space Condition:</label> <select
+					id="spaceCondition" name="spaceCondition"
+					th:field="*{facilities.spaceCondition}">
+					<option
+						th:each="option : ${T(edu.sru.group7.roomallocation.domain.SpaceCondition).values()}"
+						th:value="${option}" th:text="${option}"></option>
+				</select>
+
+			</div>
+
+
+			<!--  Dropdown for Space Use Code from Facilities class and SpaceUseCode enum class -->
+			<div class="mb-3">
+				<label for="spaceUseCode">Select Space Use Code:</label> 
+				<select
+					id="spaceUseCode" name="spaceUseCode"
+					th:field="*{facilities.spaceUseCode}">
+					<option
+						th:each="option : ${T(edu.sru.group7.roomallocation.domain.SpaceUseCode).values()}"
+						th:value="${option}" th:text="${option.getDisplayName()}"></option>
+				</select>
+			</div>
+
+
+			<div class="mb-3">
+				<label for="netSquareFootage">Net Square Footage</label> <input
+					type="text" class="form-control"
+					th:field="*{facilities.netSquareFootage}" id="netSquareFootage"
+					pattern="[0-9]+" title="Please enter numbers only"
+					placeholder="Net Square Footage">
+
+			</div>
+			
+			
+			<div class="mb-3">
+				<label for="numberStations">Number Stations</label> <input
+					type="text" class="form-control"
+					th:field="*{facilities.numberStations}" id="numberStations"
+					pattern="[0-9]+" title="Please enter numbers only"
+					placeholder="Number Stations">
+
+			</div>
+
+			<div class="mb-3">
+				<label for="numberADAStation">Number ADA Station</label> <input
+					type="text" class="form-control"
+					th:field="*{facilities.numberADAStation}" id="numberADAStation"
+					pattern="[0-9]+" title="Please enter numbers only"
+					placeholder="Number ADA Station">
+					
+			</div>
+
+			<div class="mb-3">
+				<label for="furniture">Furniture</label> 
+				<select
+					id="furniture" name="furniture" th:field="*{facilities.furniture}">
+					<option value="FIXED">Fixed</option>
+					<option value="MOVEABLE">Moveable</option>
+				</select>
+			</div>
+
+			<div class="mb-3">
+				<label for="maxOccupantCap">Max Occupant Cap</label> <input
+					type="text" class="form-control"
+					th:field="*{facilities.maxOccupantCap}" id="maxOccupantCap"
+					pattern="[0-9]+" title="Please enter numbers only"
+					placeholder="Max Occupant Cap">
+										
+
+			</div>
+
+			<div class="mb-3">
+				<label for="fireCap">Fire Cap</label> <input
+					type="text" class="form-control"
+					th:field="*{facilities.fireCap}" id="fireCap"
+					pattern="[0-9]+" title="Please enter numbers only"
+					placeholder="Fire Cap">
+
+			</div>
+
+
+
+
+
+			<!-- The Structural Architectural data -->
+			<!--  Dropdown for Structural Features from StructuralArchitecturalFeatures class and StructuralFeatures enum class -->
+			<div class="mb-3">
+				<label for="structuralFeatures">Select Structural Features:</label> 
+				<select
+					id="structuralFeatures" name="structuralFeatures"
+					th:field="*{structuralArchitecturalFeatures.structuralFeatures}">
+					<option
+						th:each="option : ${T(edu.sru.group7.roomallocation.domain.StructuralFeatures).values()}"
+						th:value="${option}" th:text="${option.getDisplayName()}"></option>
+				</select>
+			</div>
+
+			<div class="mb-3">
+				<label for="specialCharacters">Special Characters</label> <input
+					type="text" class="form-control"
+					th:field="*{structuralArchitecturalFeatures.specialCharacters}" id="specialCharacters"
+					placeholder="Special Characters">
+			</div>
+			
+			<div class="mb-3">
+				<label for="communication">Communication</label> 
+				<select
+					id="communication" name="communication" th:field="*{structuralArchitecturalFeatures.communication}">
+					<option value="YES">Yes</option>
+					<option value="NO">No</option>
+				</select>
+			</div>
+
+			<div class="mb-3">
+				<label for="electricalServ">Electrical Service</label> 
+				<select
+					id="electricalServ" name="electricalServ" th:field="*{structuralArchitecturalFeatures.electricalServ}">
+					<option value="YES">Yes</option>
+					<option value="NO">No</option>
+				</select>
+			</div>	
+			
+			<div class="mb-3">
+				<label for="gasServ">Gas Service</label> 
+				<select
+					id="cgasServ" name="gasServ" th:field="*{structuralArchitecturalFeatures.gasServ}">
+					<option value="YES">Yes</option>
+					<option value="NO">No</option>
+				</select>
+			</div>
+			
+			<div class="mb-3">
+				<label for="spPlumbingServ"> Sp Plumbing Service</label> 
+				<select
+					id="spPlumbingServ" name="spPlumbingServ" th:field="*{structuralArchitecturalFeatures.spPlumbingServ}">
+					<option value="YES">Yes</option>
+					<option value="NO">No</option>
+				</select>
+			</div>
+			
+			<div class="mb-3">
+				<label for="tempConServ">Temp Con Service</label> 
+				<select
+					id="tempConServ" name="tempConServ" th:field="*{structuralArchitecturalFeatures.tempConServ}">
+					<option value="YES">Yes</option>
+					<option value="NO">No</option>
+				</select>
+			</div>
+			
+			<div class="mb-3">
+				<label for="ventilatingServ">Ventilating Service</label> 
+				<select
+					id="ventilatingServ" name="ventilatingServ" th:field="*{structuralArchitecturalFeatures.ventilatingServ}">
+					<option value="YES">Yes</option>
+					<option value="NO">No</option>
+				</select>
+			</div>
+			
+			<div class="mb-3">
+				<label for="waterServ">Water Service</label> 
+				<select
+					id="waterServ" name="waterServ" th:field="*{structuralArchitecturalFeatures.waterServ}">
+					<option value="YES">Yes</option>
+					<option value="NO">No</option>
+				</select>
+			</div>
+			
+			<div class="mb-3">
+				<label for="notes">Notes</label> <input
+					type="text" class="form-control"
+					th:field="*{structuralArchitecturalFeatures.notes}" id="notes"
+					placeholder="Notes">
+			</div>
+			
+							
+			<!--  ClassroomITFeatures data -->
+			
+			<div class="mb-3">
+				<label for="zoom">Zoom:</label> 
+				<select
+					id="zoom" name="zoom"
+					th:field="*{classRoomITFeatures.zoom}">
+					<option
+						th:each="option : ${T(edu.sru.group7.roomallocation.domain.Zoom).values()}"
+						th:value="${option}" th:text="${option.getDisplayName()}"></option>
+				</select>
+			</div>
+			
+			<div class="mb-3">
+				<label for="podiumStationType">Podium Station Type:</label> <select
+					id="podiumStationType" name="podiumStationType"
+					th:field="*{classRoomITFeatures.podiumStationType}">
+					<option
+						th:each="option : ${T(edu.sru.group7.roomallocation.domain.PodiumStationType).values()}"
+						th:value="${option}" th:text="${option}"></option>
+				</select>
+			</div>
+			
+			<div class="mb-3">
+				<label for="consoleCompModel">Console Computer Model:</label> 
+				<select
+					id="consoleCompModel" name="consoleCompModel"
+					th:field="*{classRoomITFeatures.consoleCompModel}">
+					<option
+						th:each="option : ${T(edu.sru.group7.roomallocation.domain.ConsoleCompModel).values()}"
+						th:value="${option}" th:text="${option.getDisplayName()}"></option>
+				</select>
+			</div>
+			
+			<div class="mb-3">
+				<label for="consoleCompWarranty">Console Computer Warranty</label> <input type="text"
+					class="form-control" th:field="*{classRoomITFeatures.consoleCompWarranty}" id="consoleCompWarranty"
+					placeholder="Console Computer Warranty">
+			</div>
+			
+			<div class="mb-3">
+				<label for="numberProj">Number of Projectors</label> <input
+					type="text" class="form-control"
+					th:field="*{classRoomITFeatures.numberProj}" id="numberProj"
+					pattern="[0-9]+" title="Please enter numbers only"
+					placeholder="Number of Projectors">
+			</div>
+			
+			<div class="mb-3">
+				<label for="projDisplayType">Projector Display Type:</label> <select
+					id="projDisplayType" name="projDisplayType"
+					th:field="*{classRoomITFeatures.projDisplayType}">
+					<option
+						th:each="option : ${T(edu.sru.group7.roomallocation.domain.ProjDisplayType).values()}"
+						th:value="${option}" th:text="${option}"></option>
+				</select>
+			</div>
+			
+			<div class="mb-3">
+				<label for="projMakeModelNumber">Projector Make and Model:</label> <select
+					id="projModelNumber" name="projModelNumber"
+					th:field="*{classRoomITFeatures.projModelNumber}">
+					<option
+						th:each="option : ${T(edu.sru.group7.roomallocation.domain.ProjMakeModelNumber).values()}"
+						th:value="${option}" th:text="${option}"></option>
+				</select>
+			</div>
+			
+			<div class="mb-3">
+				<label for="projIPAddress">Projector IP Address</label> <input type="text"
+					class="form-control" th:field="*{classRoomITFeatures.projIPAddress}" id="projIPAddress"
+					placeholder="Projector IP Address"> 
+			</div>
+			
+			<div class="mb-3">
+				<label for="projInstall">Projector Install</label> <input type="text"
+					class="form-control" th:field="*{classRoomITFeatures.projInstall}" id="projInstall"
+					placeholder="Projector Install">
+			</div>
+			
+			<div class="mb-3">
+				<label for="crestonModel">Creston Model:</label> 
+				<select
+					id="crestonModel" name="crestonModel"
+					th:field="*{classRoomITFeatures.crestonModel}">
+					<option
+						th:each="option : ${T(edu.sru.group7.roomallocation.domain.CrestonModel).values()}"
+						th:value="${option}" th:text="${option.getDisplayName()}"></option>
+				</select>
+			</div>
+			
+			<div class="mb-3">
+				<label for="crestonSerialNumber">Creston Serial Number</label> <input type="text"
+					class="form-control" th:field="*{classRoomITFeatures.crestonSerialNumber}" id="crestonSerialNumber"
+					placeholder="Creston Serial Number"> 
+			</div>
+			
+			<div class="mb-3">
+				<label for="crestonIPAddress">Creston IP Address</label> <input type="text"
+					class="form-control" th:field="*{classRoomITFeatures.crestonIPAddress}" id="crestonIPAddress"
+					placeholder="Creston IP Address"> 
+			</div>
+			
+			<div class="mb-3">
+				<label for="audioDesc">Audio Description:</label> 
+				<select
+					id="audioDesc" name="audioDesc"
+					th:field="*{classRoomITFeatures.audioDesc}">
+					<option
+						th:each="option : ${T(edu.sru.group7.roomallocation.domain.AudioDesc).values()}"
+						th:value="${option}" th:text="${option}"></option>
+				</select>
+			</div>
+			
+			<div class="mb-3">
+				<label for="voiceLift">Voice Lift</label> 
+				<select
+					id="voiceLift" name="voiceLift" th:field="*{classRoomITFeatures.voiceLift}">
+					<option value="YES">Yes</option>
+					<option value="NO">No</option>
+				</select>
+			</div>
+			
+			<div class="mb-3">
+				<label for="iwbInstall">IWB Install</label> <input type="text"
+					class="form-control" th:field="*{classRoomITFeatures.iwbInstall}" id="iwbInstall"
+					placeholder="IWB Install">
+			</div>	
+							
+							
+							
+			<!--  ComputerlabITfeatures data -->
+							
+										
+			
+			
+			<button type="submit" class="btn btn-primary">Add Room</button>
+		</form>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Room</title>
+<!-- Add Bootstrap CSS link here -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+	crossorigin="anonymous"></script>
+</head>
+<body>
+
+	<div class="container mt-5">
+		<form action="#" th:action="@{/addroom}" th:object="${rooms}"
+			method="post" enctype="multipart/form-data">
+			<h1 style="text-align: center">Add Room</h1>
+			<br> <br> <br>
+			<!--  ADD-ROOM DATA -->
+			<h2>General Room Info</h2>
+			<br> <br>
+			<div class="row">
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control" th:field="*{roomNumber}"
+							id="roomNumber" placeholder="Room #" style="width: 250px">
+						<span th:if="${#fields.hasErrors('roomNumber')}"
+							th:errors="*{roomNumber}"></span> <label for="roomNumber">Room
+							Number</label>
+					</div>
+				</div>
+
+				
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control" th:field="*{spaceName}"
+							id="spaceName" placeholder="Space Name" style="width: 250px">
+						<span th:if="${#fields.hasErrors('spaceName')}"
+							th:errors="*{spaceName}"></span> <label for="spaceName">Space
+							Name</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="mb-3">
+						<label for="imageFile">Room Image:</label> <input type="file"
+							name="imageFile" accept="image/*" />
+					</div>
+				</div>
+			</div>
+			<br> <br>
+			<hr>
+
+
+
+			<!-- Add fields for Facilities class -->
+			<h2>Facilities</h2>
+			<br> <br>
+
+			<!--  Dropdown for Space Condition from SpaceCondition Class -->
+			<div class="row">
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="spaceCondition"
+							name="spaceCondition" th:field="*{buildings}">
+							<option th:each="spaceCondition : ${buildings}"
+								th:value="${spaceCondition.id}"
+								th:text="${spaceCondition.value}"></option>
+						</select> <label for="spaceCondition">Select Space Condition:</label>
+					</div>
+				</div>
+
+				<!--  Dropdown for Space Use Code from SpaceUseCode Class -->
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="spaceUseCode" name="spaceUseCode"
+							th:field="*{facilities.spaceUseCode}">
+							<option th:each="spaceUseCode : ${spaceUseCodes}"
+								th:value="${spaceUseCode.id}" th:text="${spaceUseCode.value}">
+							</option>
+						</select> <label for="spaceUseCode">Select Space Use Code:</label>
+					</div>
+				</div>
+
+
+				<!--  Dropdown for Furniture from Furniture Class -->
+				<div class="col">
+					<div class=" form-floating mb-3">
+						<select class="form-select" id="furniture" name="furniture"
+							th:field="*{facilities.furniture}">
+							<option th:each="furniture : ${furnitures}"
+								th:value="${furniture.id}" th:text="${furniture.value}">
+							</option>
+						</select> <label for="furniture" class="align-top">Furniture</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{facilities.netSquareFootage}" id="netSquareFootage"
+							pattern="[0-9]+" title="Please enter numbers only"
+							placeholder="Square Ft" style="width: 260px"> <label
+							for="netSquareFootage">Net Square Footage</label>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{facilities.numberStations}" id="numberStations"
+							pattern="[0-9]+" title="Please enter numbers only"
+							placeholder="# Stations" style="width: 260px"> <label
+							for="numberStations">Number Stations</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{facilities.numberADAStation}" id="numberADAStation"
+							pattern="[0-9]+" title="Please enter numbers only"
+							placeholder="# ADA" style="width: 260px"> <label
+							for="numberADAStation">Number ADA Station</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{facilities.maxOccupantCap}" id="maxOccupantCap"
+							pattern="[0-9]+" title="Please enter numbers only"
+							placeholder="Occupancy" style="width: 260px"> <label
+							for="maxOccupantCap">Max Occupant Cap</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{facilities.fireCap}" id="fireCap" pattern="[0-9]+"
+							title="Please enter numbers only" placeholder="Fire Cap"
+							style="width: 260px"> <label for="fireCap">Fire
+							Cap</label>
+					</div>
+				</div>
+			</div>
+			<br> <br>
+			<hr>
+
+
+
+
+
+			<!-- The Structural Architectural data -->
+			<h2>Structural Features</h2>
+			<br> <br>
+
+			<!--  Dropdown for Structural Features from StructuralFeatures Class -->
+			<div class="row">
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="structuralFeatures"
+							name="structuralFeatures"
+							th:field="*{structuralArchitecturalFeatures.structuralFeatures}">
+							<option th:each="structuralFeatures : ${structuralFeatures}"
+								th:value="${structuralFeatures.id}"
+								th:text="${structuralFeatures.value}"></option>
+						</select> <label for="structuralFeatures">Select Structural
+							Features:</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="communication"
+							name="communication"
+							th:field="*{structuralArchitecturalFeatures.communication}">
+							<option value="YES">Yes</option>
+							<option value="NO">No</option>
+						</select> <label for="communication">Communication</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="electricalServ"
+							name="electricalServ"
+							th:field="*{structuralArchitecturalFeatures.electricalServ}">
+							<option value="YES">Yes</option>
+							<option value="NO">No</option>
+						</select> <label for="electricalServ">Electrical Service</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="cgasServ" name="gasServ"
+							th:field="*{structuralArchitecturalFeatures.gasServ}">
+							<option value="YES">Yes</option>
+							<option value="NO">No</option>
+						</select> <label for="gasServ">Gas Service</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="spPlumbingServ"
+							name="spPlumbingServ"
+							th:field="*{structuralArchitecturalFeatures.spPlumbingServ}">
+							<option value="YES">Yes</option>
+							<option value="NO">No</option>
+						</select> <label for="spPlumbingServ"> Sp Plumbing Service</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="tempConServ" name="tempConServ"
+							th:field="*{structuralArchitecturalFeatures.tempConServ}">
+							<option value="YES">Yes</option>
+							<option value="NO">No</option>
+						</select> <label for="tempConServ">Temp Con Service</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="ventilatingServ"
+							name="ventilatingServ"
+							th:field="*{structuralArchitecturalFeatures.ventilatingServ}">
+							<option value="YES">Yes</option>
+							<option value="NO">No</option>
+						</select> <label for="ventilatingServ">Ventilating Service</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="waterServ" name="waterServ"
+							th:field="*{structuralArchitecturalFeatures.waterServ}">
+							<option value="YES">Yes</option>
+							<option value="NO">No</option>
+						</select> <label for="waterServ">Water Service</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col">
+					<div class="form-floating mb-3">
+						<textarea class="form-control"
+							th:field="*{structuralArchitecturalFeatures.specialCharacters}"
+							id="specialCharacters" placeholder="Special Characters"
+							style="height: 250px"></textarea>
+						<label for="specialCharacters">Special Characters</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<textarea class="form-control"
+							th:field="*{structuralArchitecturalFeatures.notes}" id="notes"
+							placeholder="Notes" style="height: 250px"></textarea>
+						<label for="notes">Notes</label>
+					</div>
+				</div>
+			</div>
+			<br> <br>
+			<hr>
+
+
+
+			<!--  classRoomITFeatures data -->
+			<h2>Classroom IT Features</h2>
+			<br> <br>
+			<h5>General</h5>
+
+			<!-- Dropdown for Zoom from Zoom Class -->
+			<div class="row">
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="zoom"
+							th:field="*{classRoomITFeatures.zoom}">
+							<option th:each="zoom : ${zoom}" th:value="${zoom.id}"
+								th:text="${zoom.value}"></option>
+						</select> <label for="zoom">Zoom:</label>
+					</div>
+				</div>
+
+				<!-- Dropdown for Podium Station Type from PodiumStationType class -->
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="podiumStationType"
+							th:field="*{classRoomITFeatures.podiumStationType}">
+							<option th:each="podiumStationType : ${podiumStationTypes}"
+								th:value="${podiumStationType.id}"
+								th:text="${podiumStationType.value}"></option>
+						</select> <label for="podiumStationType">Podium Station Type:</label>
+					</div>
+				</div>
+
+				<!-- Dropdown for Console Comp Model from ConsoleCompModel class -->
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="consoleCompModel"
+							th:field="*{classRoomITFeatures.consoleCompModel}">
+							<option th:each="consoleCompModel : ${consoleCompModels}"
+								th:value="${consoleCompModel.id}"
+								th:text="${consoleCompModel.value}"></option>
+						</select> <label for="consoleCompModel">Console Comp Model:</label>
+					</div>
+				</div>
+
+				<!-- Dropdown for Inter White Board from InterWhiteBoard class -->
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="interWhiteBoard"
+							th:field="*{classRoomITFeatures.interWhiteBoard}">
+							<option th:each="interWhiteBoard : ${interWhiteBoards}"
+								th:value="${interWhiteBoard.id}"
+								th:text="${interWhiteBoard.value}"></option>
+						</select> <label for="interWhiteBoard">Inter White Board:</label>
+					</div>
+				</div>
+
+
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{classRoomITFeatures.consoleCompWarranty}"
+							id="consoleCompWarranty" placeholder="Console Computer Warranty">
+						<label for="consoleCompWarranty">Console Computer Warranty</label>
+					</div>
+				</div>
+			</div>
+
+			<br>
+			<h5>Projector</h5>
+			<div class="row">
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{classRoomITFeatures.numberProj}" id="numberProj"
+							pattern="[0-9]+" title="Please enter numbers only"
+							placeholder="# Projectors" style="width: 160px"> <label
+							for="numberProj"># of Projectors</label>
+					</div>
+				</div>
+
+				<!-- Dropdown for Proj Display Type from ProjDisplayType class -->
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="projDisplayType"
+							th:field="*{classRoomITFeatures.projDisplayType}">
+							<option th:each="projDisplayType : ${projDisplayTypes}"
+								th:value="${projDisplayType.id}"
+								th:text="${projDisplayType.value}"></option>
+						</select> <label for="projDisplayType">Proj Display Type:</label>
+					</div>
+				</div>
+			</div>
+
+			<br>
+			<h5>Creston</h5>
+			<div class="row">
+				<!-- Dropdown for Creston Model from CrestonModel class -->
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="crestonModel"
+							th:field="*{classRoomITFeatures.crestonModel}">
+							<option th:each="crestonModel : ${crestonModels}"
+								th:value="${crestonModel.id}" th:text="${crestonModel.value}"></option>
+						</select> <label for="crestonModel">Creston Model:</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{classRoomITFeatures.crestonSerialNumber}"
+							id="crestonSerialNumber" placeholder="Creston Serial Number"
+							style="width: 250px"> <label for="crestonSerialNumber">Creston
+							Serial Number</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{classRoomITFeatures.crestonIPAddress}"
+							id="crestonIPAddress" placeholder="Creston IP Address"
+							style="width: 250px"> <label for="crestonIPAddress">Creston
+							IP Address</label>
+					</div>
+				</div>
+
+				<!-- Dropdown for Audio Desc from AudioDesc class -->
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="audioDesc"
+							th:field="*{classRoomITFeatures.audioDesc}">
+							<option th:each="audioDesc : ${audioDescs}"
+								th:value="${audioDesc.id}" th:text="${audioDesc.value}"></option>
+						</select> <label for="audioDesc">Audio Desc:</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input class="form-control" id="voiceLift"
+							th:field="*{classRoomITFeatures.voiceLift}" style="width: 80px"
+							placeholder="Voice Lift"> <label for="voiceLift">Voice
+							Lift</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{classRoomITFeatures.iwbInstall}" id="iwbInstall"
+							placeholder="IWB Install" style="width: 150px"> <label
+							for="iwbInstall">IWB Install Date</label>
+					</div>
+				</div>
+			</div>
+			<br> <br>
+			<hr>
+
+
+
+			<!--  Projectors data -->
+			<h2>Projectors</h2>
+			<br> <br>
+			<h5>Projector 1</h5>
+			<div class="row">
+				<!-- Dropdown for Proj 1 Make Model Number from ProjMakeModelNumber class -->
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="proj1MakeModelNumber"
+							th:field="*{projector.proj1MakeModelNumber}">
+							<option th:each="projMakeModelNumber : ${projMakeModelNumbers}"
+								th:value="${projMakeModelNumber.id}"
+								th:text="${projMakeModelNumber.value}"></option>
+						</select> <label for="projMakeModelNumber">Make Model Number</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{projector.proj1IPAddress}" id="proj1IPAddress"
+							placeholder="Projector 1 IP" style="width: 260px"> <label
+							for="proj1IPAddress">IP Address</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{projector.proj1SerialNumber}" id="proj1SerialNumber"
+							placeholder="Projector 1 SN" style="width: 260px"> <label
+							for="proj1SerialNumber"> Serial Number</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{projector.proj1Hours}" id="proj1Hours"
+							placeholder="Projector 1 Hours" style="width: 150px"> <label
+							for="proj1Hours">Hours</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{projector.proj1Install}" id="proj1Install"
+							placeholder="Projector 1 Install" style="width: 150px"> <label
+							for="proj1Install">Install Date</label>
+					</div>
+				</div>
+			</div>
+
+
+			<h5>Projector 2</h5>
+			<div class="row">
+				<!-- Dropdown for Proj 2 Make Model Number from ProjMakeModelNumber class -->
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="proj2MakeModelNumber"
+							th:field="*{projector.proj2MakeModelNumber}">
+							<option th:each="projMakeModelNumber : ${projMakeModelNumbers}"
+								th:value="${projMakeModelNumber.id}"
+								th:text="${projMakeModelNumber.value}"></option>
+						</select> <label for="projMakeModelNumber">Make Model Number:</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{projector.proj2IPAddress}" id="proj2IPAddress"
+							placeholder="Projector 2 IP" style="width: 260px"> <label
+							for="proj2IPAddress">IP Address</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{projector.proj2SerialNumber}" id="proj2SerialNumber"
+							placeholder="Projector 2 SN" style="width: 260px"> <label
+							for="proj2SerialNumber">Serial Number</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{projector.proj2Hours}" id="proj2Hours"
+							placeholder="Projector 2 Hours" style="width: 150px"> <label
+							for="proj2Hours">Hours</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{projector.proj2Install}" id="proj2Install"
+							placeholder="Projector 2 Install" style="width: 150px"> <label
+							for="proj2Install">Install Date</label>
+					</div>
+				</div>
+			</div>
+
+
+			<h5>Projector 3</h5>
+			<div class="row">
+				<!-- Dropdown for Proj 3 Make Model Number from ProjMakeModelNumber class -->
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="proj3MakeModelNumber"
+							th:field="*{projector.proj3MakeModelNumber}">
+							<option th:each="projMakeModelNumber : ${projMakeModelNumbers}"
+								th:value="${projMakeModelNumber.id}"
+								th:text="${projMakeModelNumber.value}"></option>
+						</select> <label for="projMakeModelNumber">Make Model Number:</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{projector.proj3IPAddress}" id="proj3IPAddress"
+							placeholder="Projector 3 IP" style="width: 260px"> <label
+							for="proj3IPAddress">IP Address</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{projector.proj3SerialNumber}" id="proj3SerialNumber"
+							placeholder="Projector 3 SN" style="width: 260px"> <label
+							for="proj3SerialNumber">Serial Number</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{projector.proj3Hours}" id="proj3Hours"
+							placeholder="Projector 3 Hours" style="width: 150px"> <label
+							for="proj3Hours">Hours</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{projector.proj3Install}" id="proj3Install"
+							placeholder="Projector 3 Install" style="width: 150px"> <label
+							for="proj3Install">Install Date</label>
+					</div>
+				</div>
+			</div>
+
+
+
+			<h5>Projector 4</h5>
+			<div class="row">
+				<!-- Dropdown for Proj 4 Make Model Number from ProjMakeModelNumber class -->
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" id="proj4MakeModelNumber"
+							th:field="*{projector.proj4MakeModelNumber}">
+							<option th:each="projMakeModelNumber : ${projMakeModelNumbers}"
+								th:value="${projMakeModelNumber.id}"
+								th:text="${projMakeModelNumber.value}"></option>
+						</select> <label for="projMakeModelNumber">Make Model Number:</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{projector.proj4IPAddress}" id="proj4IPAddress"
+							placeholder="Projector 4 IP" style="width: 260px"> <label
+							for="proj4IPAddress">IP Address</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{projector.proj4SerialNumber}" id="proj4SerialNumber"
+							placeholder="Projector 4 SN" style="width: 260px"> <label
+							for="proj4SerialNumber">Serial Number</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{projector.proj4Hours}" id="proj4Hours"
+							placeholder="Projector 4 Hours" style="width: 150px"> <label
+							for="proj4Hours">Hours</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{projector.proj4Install}" id="proj4Install"
+							placeholder="Projector 4 Install" style="width: 150px"> <label
+							for="proj4Install">Install Date</label>
+					</div>
+				</div>
+			</div>
+			<br> <br>
+			<hr>
+
+
+
+			<!--  computerLabITfeatures data -->
+			<h2>Computer Lab IT Features</h2>
+			<br> <br>
+			<div class="row">
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{computerLabIT.numberDesktopComp}"
+							id="numberDesktopComp" pattern="[0-9]+"
+							title="Please enter numbers only" placeholder="# Desktops"
+							style="width: 140px"> <label for="numberDesktopComp">#
+							of Desktops</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{computerLabIT.desktopCompOS}" id="desktopCompOS"
+							placeholder="Desktop OS" style="width: 250px"> <label
+							for="desktopCompOS">Desktop OS</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control"
+							th:field="*{computerLabIT.desktopCompInstall}"
+							id="desktopCompInstall" placeholder="Install"
+							style="width: 170px"> <label for="desktopCompInstall">Desktop
+							Install Date</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" name="wireScctPt"
+							th:field="*{computerLabIT.wireAccPt}" id="wireAccPt">
+							<option value="YES">Yes</option>
+							<option value="NO">No</option>
+						</select> <label for="wireAccPt">Wire Access Point</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" name="dataCabling"
+							th:field="*{computerLabIT.dataCabling}" id="dataCabling">
+							<option value="YES">Yes</option>
+							<option value="NO">No</option>
+						</select> <label for="dataCabling">Data Cabling</label>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-floating mb-3">
+						<select class="form-select" name="floorBoxes"
+							th:field="*{computerLabIT.floorBoxes}" id="floorBoxes">
+							<option value="YES">Yes</option>
+							<option value="NO">No</option>
+						</select> <label for="floorBoxes">Floor Boxes</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col">
+					<div class="form-floating mb-3">
+						<textarea class="form-control"
+							th:field="*{computerLabIT.desktopCompApp}" id="desktopCompOS"
+							placeholder="Desktop Computer App" style="height: 200px"></textarea>
+						<label for="desktopCompApp">Desktop Computer App</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col">
+					<div class="form-floating mb-3">
+						<textarea class="form-control"
+							th:field="*{computerLabIT.uniqueFeatures}" id="uniqueFeatures"
+							placeholder="Unique Features" style="height: 250px"></textarea>
+						<label for="uniqueFeatures">Unique Features</label>
+					</div>
+				</div>
+			</div>
+
+			<button type="submit" class="btn btn-primary">Add Room</button>
+		</form>
+	</div>
+
+</body>
+</html>

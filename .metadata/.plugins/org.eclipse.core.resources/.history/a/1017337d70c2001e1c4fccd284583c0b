@@ -1,0 +1,352 @@
+
+package edu.sru.group7.roomallocation.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import edu.sru.group7.roomallocation.domain.ClassRoomITFeatures;
+import edu.sru.group7.roomallocation.domain.ComputerLabIT;
+import edu.sru.group7.roomallocation.domain.Facilities;
+import edu.sru.group7.roomallocation.domain.Rooms;
+import edu.sru.group7.roomallocation.domain.StructuralArchitecturalFeatures;
+
+import edu.sru.group7.roomallocation.repositories.ClassRoomITFeaturesRepository;
+import edu.sru.group7.roomallocation.repositories.ComputerLabITFeaturesRepository;
+import edu.sru.group7.roomallocation.repositories.FacilitiesRepository;
+import edu.sru.group7.roomallocation.repositories.RoomsRepository;
+import edu.sru.group7.roomallocation.repositories.StructuralArchitecturalFeaturesRepository;
+
+@Controller
+public class IndexController {
+
+	@Autowired
+	private RoomsRepository roomsRepository;
+
+	@Autowired
+	private FacilitiesRepository facilitiesRepository;
+
+	@Autowired
+	private ClassRoomITFeaturesRepository classRoomITFeaturesRepository;
+
+	@Autowired
+	private StructuralArchitecturalFeaturesRepository structuralArchitecturalFeaturesRepository;
+
+	@Autowired
+	private ComputerLabITFeaturesRepository computerLabITFeaturesRepository;
+	
+
+	public IndexController() {
+	}
+
+	public IndexController(RoomsRepository roomsRepository) {
+		this.roomsRepository = roomsRepository;
+	}
+
+	public IndexController(FacilitiesRepository facilitiesRepository) {
+		this.facilitiesRepository = facilitiesRepository;
+	}
+
+	public IndexController(ClassRoomITFeaturesRepository classRoomITFeaturesRepository) {
+		this.classRoomITFeaturesRepository = classRoomITFeaturesRepository;
+	}
+
+	public IndexController(StructuralArchitecturalFeaturesRepository structuralArchitecturalFeaturesRepository) {
+		this.structuralArchitecturalFeaturesRepository = structuralArchitecturalFeaturesRepository;
+	}
+
+	public IndexController(ComputerLabITFeaturesRepository computerLabITFeaturesRepository) {
+		this.computerLabITFeaturesRepository = computerLabITFeaturesRepository;
+	}
+
+	// Mapping for the /index URL when initiated through Tomcat
+
+	@RequestMapping({ "", "/", "/index" })
+	public String showRoomList(Model model) {
+		model.addAttribute("rooms", roomsRepository.findAll());
+		model.addAttribute("facilities", facilitiesRepository.findAll());
+		model.addAttribute("structures", structuralArchitecturalFeaturesRepository.findAll());
+		model.addAttribute("classrooms", classRoomITFeaturesRepository.findAll());
+		model.addAttribute("computerlabs", computerLabITFeaturesRepository.findAll());
+		return "index";
+	}
+
+	// Mapping for the /signup URL - calls the add-room HTML, to add a room
+
+	@RequestMapping({ "/signup" })
+	public String showSignUpForm(Rooms room) {
+
+		/*
+		 * model.addAttribute("rooms", new Rooms()); model.addAttribute("facilities",
+		 * new Facilities()); model.addAttribute("structures", new
+		 * StructuralArchitecturalFeatures()); model.addAttribute("classroom", new
+		 * ClassRoomITFeatures()); model.addAttribute("computerlab", new
+		 * ComputerLabIT());
+		 */
+
+		return "add-room";
+	}
+	 
+
+	// Mapping for the /addroom URL - to add a room
+
+	@RequestMapping({ "/addroom" })
+	public String addRoom(@Validated Rooms room, @Validated Facilities facilities,
+
+			@Validated StructuralArchitecturalFeatures structures,
+
+			@Validated ClassRoomITFeatures classroom,
+
+			@Validated ComputerLabIT computerlab, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			return "add-room";
+		}
+
+		
+		facilities.setRooms(room);
+		facilitiesRepository.save(facilities);
+		structures.setRooms(room);
+		structuralArchitecturalFeaturesRepository.save(structures);
+		classroom.setRooms(room);
+		classRoomITFeaturesRepository.save(classroom);
+		computerlab.setRooms(room);
+		computerLabITFeaturesRepository.save(computerlab);
+		roomsRepository.save(room);
+
+		return "redirect:/index";
+
+	}
+
+
+	// Mapping for the /edit/room URL to edit a room
+
+	@GetMapping("/edit/{id}")
+	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+		Rooms room = roomsRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + id));
+
+		/*
+		 * Facilities facilities = facilitiesRepository.findByRoom(room);
+		 * StructuralArchitecturalFeatures structures =
+		 * structuralArchitecturalFeaturesRepository.findByRoom(room);
+		 * ClassRoomITFeatures classroom =
+		 * classRoomITFeaturesRepository.findByRoom(room); ComputerLabIT computerlab =
+		 * computerLabITFeaturesRepository.findByRoom(room);
+		 */
+		
+		Facilities facilities = facilitiesRepository.findByRoom_Id(room.getId());
+		StructuralArchitecturalFeatures structures = structuralArchitecturalFeaturesRepository.findByRoom_Id(room.getId());
+		ClassRoomITFeatures classroom = classRoomITFeaturesRepository.findByRoom_Id(room.getId());
+		ComputerLabIT computerlab = computerLabITFeaturesRepository.findByRoom_Id(room.getId());
+
+		model.addAttribute("room", room);
+		model.addAttribute("facilities", facilities);
+		model.addAttribute("structures", structures);
+		model.addAttribute("classroom", classroom);
+		model.addAttribute("computerlab", computerlab);
+
+		return "update-room";
+	}
+
+	// Mapping for the /update/id URL to update a room
+
+	@PostMapping("/update/{id}")
+	public String updateRoom(@PathVariable("id") Integer id, @Validated Rooms room,
+
+			@Validated Facilities facilities,
+
+			@Validated StructuralArchitecturalFeatures structures,
+
+			@Validated ClassRoomITFeatures classroom,
+
+			@Validated ComputerLabIT computerlab, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			room.setId(id);
+			return "update-room";
+		}
+
+		
+		facilities.setRooms(room);
+		facilitiesRepository.save(facilities);
+		structures.setRooms(room);
+		structuralArchitecturalFeaturesRepository.save(structures);
+		classroom.setRooms(room);
+		classRoomITFeaturesRepository.save(classroom);
+		computerlab.setRooms(room);
+		computerLabITFeaturesRepository.save(computerlab);
+		roomsRepository.save(room);
+		
+
+		/*
+		 * roomsRepository.save(room); room.setFacilities(facilities);
+		 * facilitiesRepository.save(facilities);
+		 * room.setStructuralArchitecturalFeatures(structures);
+		 * structuralArchitecturalFeaturesRepository.save(structures);
+		 * room.setClassRoomITFeatures(classroom);
+		 * classRoomITFeaturesRepository.save(classroom);
+		 * room.setComputerLabIT(computerlab);
+		 * computerLabITFeaturesRepository.save(computerlab);
+		 */
+
+		return "redirect:/index";
+	}
+
+	// Mapping for the /delete/id URL to delete a room
+
+	@GetMapping("/delete/{id}")
+	public String deleteRoom(@PathVariable("id") Integer id, Model model) {
+		Rooms room = roomsRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + id));
+
+		Facilities facilities = facilitiesRepository.findByRoom_Id(room.getId());
+		StructuralArchitecturalFeatures structures = structuralArchitecturalFeaturesRepository.findByRoom_Id(room.getId());
+		ClassRoomITFeatures classroom = classRoomITFeaturesRepository.findByRoom_Id(room.getId());
+		ComputerLabIT computerlab = computerLabITFeaturesRepository.findByRoom_Id(room.getId());
+
+		facilitiesRepository.delete(facilities);
+		structuralArchitecturalFeaturesRepository.delete(structures);
+		classRoomITFeaturesRepository.delete(classroom);
+		computerLabITFeaturesRepository.delete(computerlab);
+		roomsRepository.delete(room);
+
+		return "redirect:/index";
+	}
+
+}
+
+/*
+ * 
+ * package edu.sru.group7.roomallocation.controller;
+ * 
+ * import org.springframework.beans.factory.annotation.Autowired; import
+ * org.springframework.stereotype.Controller; import
+ * org.springframework.ui.Model; import
+ * org.springframework.validation.BindingResult; import
+ * org.springframework.validation.annotation.Validated; import
+ * org.springframework.web.bind.annotation.*;
+ * 
+ * import edu.sru.group7.roomallocation.domain.*; import
+ * edu.sru.group7.roomallocation.repositories.*;
+ * 
+ * @Controller
+ * 
+ * @RequestMapping("/") public class IndexController {
+ * 
+ * private final RoomsRepository roomsRepository; private final
+ * FacilitiesRepository facilitiesRepository; private final
+ * ClassRoomITFeaturesRepository classRoomITFeaturesRepository; private final
+ * StructuralArchitecturalFeaturesRepository
+ * structuralArchitecturalFeaturesRepository; private final
+ * ComputerLabITFeaturesRepository computerLabITFeaturesRepository;
+ * 
+ * @Autowired public IndexController( RoomsRepository roomsRepository,
+ * FacilitiesRepository facilitiesRepository, ClassRoomITFeaturesRepository
+ * classRoomITFeaturesRepository, StructuralArchitecturalFeaturesRepository
+ * structuralArchitecturalFeaturesRepository, ComputerLabITFeaturesRepository
+ * computerLabITFeaturesRepository) { this.roomsRepository = roomsRepository;
+ * this.facilitiesRepository = facilitiesRepository;
+ * this.classRoomITFeaturesRepository = classRoomITFeaturesRepository;
+ * this.structuralArchitecturalFeaturesRepository =
+ * structuralArchitecturalFeaturesRepository;
+ * this.computerLabITFeaturesRepository = computerLabITFeaturesRepository; }
+ * 
+ * @GetMapping({"", "/", "/index"}) public String showRoomList(Model model) {
+ * model.addAttribute("rooms", roomsRepository.findAll()); return "index"; }
+ * 
+ * @GetMapping("/signup") public String showSignUpForm(Model model) {
+ * model.addAttribute("rooms", new Rooms()); model.addAttribute("facilities",
+ * new Facilities()); model.addAttribute("structures", new
+ * StructuralArchitecturalFeatures()); model.addAttribute("classroom", new
+ * ClassRoomITFeatures()); model.addAttribute("computerlab", new
+ * ComputerLabIT()); return "redirect:/index"; }
+ * 
+ * @PostMapping("/addroom") public String
+ * addRoom(@Validated @ModelAttribute("rooms") Rooms room,
+ * 
+ * @Validated @ModelAttribute("facilities") Facilities facilities,
+ * 
+ * @Validated @ModelAttribute("structures") StructuralArchitecturalFeatures
+ * structures,
+ * 
+ * @Validated @ModelAttribute("classroom") ClassRoomITFeatures classroom,
+ * 
+ * @Validated @ModelAttribute("computerlab") ComputerLabIT computerlab,
+ * BindingResult result) { if (result.hasErrors()) { return "add-room"; }
+ * 
+ * roomsRepository.save(room); facilities.setRooms(room);
+ * facilitiesRepository.save(facilities); structures.setRooms(room);
+ * structuralArchitecturalFeaturesRepository.save(structures);
+ * classroom.setRooms(room); classRoomITFeaturesRepository.save(classroom);
+ * computerlab.setRooms(room);
+ * computerLabITFeaturesRepository.save(computerlab);
+ * 
+ * return "redirect:/index"; }
+ * 
+ * @GetMapping("/edit/{id}") public String showUpdateForm(@PathVariable("id")
+ * Integer id, Model model) { Rooms room = roomsRepository.findById(id)
+ * .orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + id));
+ * 
+ * Facilities facilities = facilitiesRepository.findByRoom(room);
+ * StructuralArchitecturalFeatures structures =
+ * structuralArchitecturalFeaturesRepository.findByRoom(room);
+ * ClassRoomITFeatures classroom =
+ * classRoomITFeaturesRepository.findByRoom(room); ComputerLabIT computerlab =
+ * computerLabITFeaturesRepository.findByRoom(room);
+ * 
+ * model.addAttribute("rooms", room); model.addAttribute("facilities",
+ * facilities); model.addAttribute("structures", structures);
+ * model.addAttribute("classroom", classroom); model.addAttribute("computerlab",
+ * computerlab);
+ * 
+ * return "update-room"; }
+ * 
+ * @PostMapping("/update/{id}") public String updateRoom(@PathVariable("id")
+ * Integer id,
+ * 
+ * @Validated @ModelAttribute("rooms") Rooms room,
+ * 
+ * @Validated @ModelAttribute("facilities") Facilities facilities,
+ * 
+ * @Validated @ModelAttribute("structures") StructuralArchitecturalFeatures
+ * structures,
+ * 
+ * @Validated @ModelAttribute("classroom") ClassRoomITFeatures classroom,
+ * 
+ * @Validated @ModelAttribute("computerlab") ComputerLabIT computerlab,
+ * BindingResult result) { if (result.hasErrors()) { room.setId(id); return
+ * "update-room"; }
+ * 
+ * roomsRepository.save(room); facilities.setRooms(room);
+ * facilitiesRepository.save(facilities); structures.setRooms(room);
+ * structuralArchitecturalFeaturesRepository.save(structures);
+ * classroom.setRooms(room); classRoomITFeaturesRepository.save(classroom);
+ * computerlab.setRooms(room);
+ * computerLabITFeaturesRepository.save(computerlab);
+ * 
+ * return "redirect:/index"; }
+ * 
+ * @GetMapping("/delete/{id}") public String deleteRoom(@PathVariable("id")
+ * Integer id) { Rooms room = roomsRepository.findById(id) .orElseThrow(() ->
+ * new IllegalArgumentException("Invalid room Id:" + id));
+ * 
+ * Facilities facilities = facilitiesRepository.findByRoom(room);
+ * StructuralArchitecturalFeatures structures =
+ * structuralArchitecturalFeaturesRepository.findByRoom(room);
+ * ClassRoomITFeatures classroom =
+ * classRoomITFeaturesRepository.findByRoom(room); ComputerLabIT computerlab =
+ * computerLabITFeaturesRepository.findByRoom(room);
+ * 
+ * facilitiesRepository.delete(facilities);
+ * structuralArchitecturalFeaturesRepository.delete(structures);
+ * classRoomITFeaturesRepository.delete(classroom);
+ * computerLabITFeaturesRepository.delete(computerlab);
+ * roomsRepository.delete(room);
+ * 
+ * return "redirect:/index"; } }
+ */

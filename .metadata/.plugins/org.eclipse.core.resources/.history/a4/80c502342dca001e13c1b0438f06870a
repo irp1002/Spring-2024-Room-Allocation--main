@@ -1,0 +1,156 @@
+
+package edu.sru.group7.roomallocation.controller;
+
+import java.io.IOException;
+import java.util.Base64;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import edu.sru.group7.roomallocation.domain.*;
+
+import edu.sru.group7.roomallocation.repositories.*;
+
+@Controller
+public class DropdownOptionController {
+	
+	@Autowired
+    private SpaceUseCodeRepository spaceUseCodeRepository;
+	
+	@Autowired
+    private SpaceConditionRepository spaceConditionRepository;
+
+    
+	public DropdownOptionController() {
+	}
+
+    public DropdownOptionController(SpaceUseCodeRepository spaceUseCodeRepository,
+                                    SpaceConditionRepository spaceConditionRepository
+                                    ) {
+        
+        this.spaceUseCodeRepository = spaceUseCodeRepository;
+        this.spaceConditionRepository = spaceConditionRepository;
+        
+    }
+    
+    
+    //Mapping for the /admin URL when initiated through Tomcat
+    //lists all the dropdown options for admin to manage
+    @RequestMapping({ "/list" })
+    public String showDropdownList (Model model) {
+        model.addAttribute("spaceUseCodeOptions", spaceUseCodeRepository.findAll());
+        model.addAttribute("spaceConditionOptions", spaceConditionRepository.findAll());
+		/* model.addAttribute("furnitureOptions", furnitureRepository.findAll()); */
+        model.addAttribute("addEndpoint", "/spaceUseCode/add");
+        model.addAttribute("addEndpoint", "/spaceCondition/add");
+        model.addAttribute("newDropdownOption", new SpaceUseCode());
+        model.addAttribute("newDropdownOption", new SpaceCondition());
+    	return "list";
+    }
+    
+	/*
+	 * @GetMapping("/spaceUseCode/add") public String addSpaceUseCodeForm(Model
+	 * model) { model.addAttribute("spaceUseCode", new SpaceUseCode()); return
+	 * "add-option"; }
+	 * 
+	 * @PostMapping("/spaceUseCode/add") public String
+	 * addSpaceUseCode(@ModelAttribute("spaceUseCode") SpaceUseCode spaceUseCode) {
+	 * spaceUseCodeRepository.save(spaceUseCode); return "redirect:/list"; }
+	 * 
+	 * @GetMapping("/spaceUseCode/edit/{id}") public String
+	 * editSpaceUseCodeForm(@PathVariable Integer id, Model model) { SpaceUseCode
+	 * spaceUseCode = spaceUseCodeRepository.findById(id) .orElseThrow(() -> new
+	 * IllegalArgumentException("Invalid SpaceUseCode Id: " + id));
+	 * 
+	 * model.addAttribute("spaceUseCode", spaceUseCode); return "edit-option"; }
+	 * 
+	 * @PostMapping("/spaceUseCode/edit/{id}") public String
+	 * editSpaceUseCode(@PathVariable Integer id, @ModelAttribute("spaceUseCode")
+	 * SpaceUseCode spaceUseCode) {
+	 * 
+	 * spaceUseCodeRepository.save(spaceUseCode); return "redirect:/list"; }
+	 */
+    
+    @GetMapping("/spaceUseCode/add")
+    public String addSpaceUseCodeForm(Model model) {
+        model.addAttribute("newDropdownOption", new SpaceUseCode());
+        model.addAttribute("addEndpoint", "/spaceUseCode/add");
+        return "list"; //"add-option"; 
+    }
+
+    @PostMapping("/spaceUseCode/add")
+    public String addSpaceUseCode(@ModelAttribute("newDropdownOption") SpaceUseCode spaceUseCode) {
+        spaceUseCodeRepository.save(spaceUseCode);
+        return "redirect:/list";
+    }
+
+    @GetMapping("/spaceUseCode/edit/{id}")
+    public String editSpaceUseCodeForm(@PathVariable Integer id, Model model) {
+        SpaceUseCode spaceUseCode = spaceUseCodeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid SpaceUseCode Id: " + id));
+
+        model.addAttribute("editDropdownOption", spaceUseCode);
+        model.addAttribute("editEndpoint", "/spaceUseCode/edit/" + id);
+        return "list"; //"edit-option";
+    }
+
+    @PostMapping("/spaceUseCode/edit/{id}")
+    public String editSpaceUseCode(@PathVariable Integer id, @ModelAttribute("editDropdownOption") SpaceUseCode spaceUseCode) {
+        spaceUseCodeRepository.save(spaceUseCode);
+        return "redirect:/list";
+    }
+
+    @GetMapping("/spaceUseCode/delete/{id}")
+    public String deleteSpaceUseCode(@PathVariable Integer id) {
+        spaceUseCodeRepository.deleteById(id);
+        return "redirect:/list";
+    }
+    
+    //Crud operations for SpaceCondition
+    @GetMapping("/spaceCondition/add")
+    public String addSpaceConditionForm(Model model) {
+        model.addAttribute("newDropdownOption", new SpaceCondition());
+        model.addAttribute("addEndpoint", "/spaceCondition/add");
+        return "list";//"add-option";
+    }
+
+    @PostMapping("/spaceCondition/add")
+    public String addSpaceCondition(@ModelAttribute("spaceCondition") SpaceCondition spaceCondition) {
+        spaceConditionRepository.save(spaceCondition);
+        return "redirect:/list";
+    }
+
+    @GetMapping("/spaceCondition/edit/{id}")
+    public String editSpaceConditionForm(@PathVariable Integer id, Model model) {
+        SpaceCondition spaceCondition = spaceConditionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid SpaceCondition Id: " + id));
+
+        model.addAttribute("spaceCondition", spaceCondition);
+        return "list";//"edit-option";
+    }
+
+    @PostMapping("/spaceCondition/edit/{id}")
+    public String editSpaceCondition(@PathVariable Integer id, @ModelAttribute("spaceCondition") SpaceCondition spaceCondition) {
+        
+        spaceConditionRepository.save(spaceCondition);
+        return "redirect:/list";
+    }
+
+    @GetMapping("/spaceCondition/delete/{id}")
+    public String deleteSpaceCondition(@PathVariable Integer id) {
+        spaceConditionRepository.deleteById(id);
+        return "redirect:/list";
+    }
+}

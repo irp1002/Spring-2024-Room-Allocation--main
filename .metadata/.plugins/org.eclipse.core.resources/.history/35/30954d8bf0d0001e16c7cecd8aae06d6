@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dropdown List</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.20.0/font/bootstrap-icons.css">
+<link
+	href=" https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.10/b-2.4.2/b-html5-2.4.2/r-2.5.0/sb-1.6.0/sl-1.7.0/datatables.min.css"
+	rel="stylesheet">
+<script
+	src=" https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.10/b-2.4.2/b-html5-2.4.2/r-2.5.0/sb-1.6.0/sl-1.7.0/datatables.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+.col-md-4 {
+	/* float: left; */
+	width: 45%;
+	box-sizing: border-box;
+	padding: 0 15px;
+	margin-bottom: 20px;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 20px;
+	border: 2px solid #ddd;
+	border-radius: 10px;
+}
+
+th, td {
+	padding: 8px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+
+th {
+	background-color: #f2f2f2;
+	border-bottom: 2px solid #ddd;
+}
+
+.btn-group {
+	margin-top: 5px;
+}
+
+.btn {
+	margin-right: 5px;
+	padding: 5px 10px;
+	font-size: 14px;
+}
+
+.btn-danger {
+	background-color: #dc3545; /* Red color for delete button */
+	color: #ffff;
+	font-size: 14px;
+}
+
+.btn-add, .btn-success {
+	background-color: #28a745; /* Green color for add button */
+	color: #ffff;
+	font-size: 14px;
+}
+
+tbody tr:hover {
+	cursor: pointer;
+	background-color: #dcdcdc;
+}
+</style>
+</head>
+<body>
+	<p>
+		<a class="btn btn-danger" th:href="@{/}">Back to Grid</a>
+	</p>
+	
+	<div class="container mt-5" id="myGroup">
+		<p class="d-inline-flex gap-1">
+			<button class="btn btn-primary" type="button"
+				data-bs-toggle="collapse" data-bs-target="#spaceUseCode"
+				aria-expanded="false" aria-controls="spaceUseCode">Space
+				Use Code</button>
+		</p>
+		
+		<p class="d-inline-flex gap-1">
+			<button class="btn btn-primary" type="button"
+				data-bs-toggle="collapse" data-bs-target="#spaceCondition"
+				aria-expanded="false" aria-controls="spaceCondition">Space
+				Condition</button>
+		</p>
+
+		<p class="d-inline-flex gap-1">
+			<button class="btn btn-primary" type="button"
+				data-bs-toggle="collapse" data-bs-target="#furniture"
+				aria-expanded="false" aria-controls="furniture">Furniture</button>
+		</p>
+
+		<p class="d-inline-flex gap-1">
+			<button class="btn btn-primary" type="button"
+				data-bs-toggle="collapse" data-bs-target="#structuralFeatures"
+				aria-expanded="false" aria-controls="structuralFeatures">Structural
+				Features</button>
+		</p>
+
+		<p class="d-inline-flex gap-1">
+			<button class="btn btn-primary" type="button"
+				data-bs-toggle="collapse" data-bs-target="#zoom"
+				aria-expanded="false" aria-controls="zoom">Zoom</button>
+		</p>
+
+		<p class="d-inline-flex gap-1">
+			<button class="btn btn-primary" type="button"
+				data-bs-toggle="collapse" data-bs-target="#podiumStationType"
+				aria-expanded="false" aria-controls="podiumStationType">Podium
+				Station Type</button>
+		</p>
+
+
+		<p class="d-inline-flex gap-1">
+			<button class="btn btn-primary" type="button"
+				data-bs-toggle="collapse" data-bs-target="#consoleCompModel"
+				aria-expanded="false" aria-controls="consoleCompModel">Console
+				Comp Model</button>
+		</p>
+
+		</p>
+
+		<p class="d-inline-flex gap-1">
+			<button class="btn btn-primary" type="button"
+				data-bs-toggle="collapse" data-bs-target="#projDisplayType"
+				aria-expanded="false" aria-controls="projDisplayType">Proj
+				Display Type</button>
+		</p>
+
+		<p class="d-inline-flex gap-1">
+			<button class="btn btn-primary" type="button"
+				data-bs-toggle="collapse" data-bs-target="#projMakeModelNumber"
+				aria-expanded="false" aria-controls="projMakeModelNumber">Proj
+				Make Model Number</button>
+		</p>
+
+		<p class="d-inline-flex gap-1">
+			<button class="btn btn-primary" type="button"
+				data-bs-toggle="collapse" data-bs-target="#crestonModel"
+				aria-expanded="false" aria-controls="crestonModel">Creston
+				Model</button>
+		</p>
+		
+		<p class="d-inline-flex gap-1">
+			<button class="btn btn-primary" type="button"
+				data-bs-toggle="collapse" data-bs-target="#audioDesc"
+				aria-expanded="false" aria-controls="audioDesc">Audio Desc</button>
+		</p>
+		
+		<p class="d-inline-flex gap-1">
+			<button class="btn btn-primary" type="button"
+				data-bs-toggle="collapse" data-bs-target="#interWhiteBoard"
+				aria-expanded="false" aria-controls="interWhiteBoard">Inter White Board</button>
+		</p>
+		
+		<p class="d-inline-flex gap-1">
+			<button class="btn btn-primary" type="button"
+				data-bs-toggle="collapse" data-bs-target="#buildings"
+				aria-expanded="false" aria-controls="buildings">Buildings</button>
+		</p>
+
+
+		<!-- Space Use Code Table -->
+		<div class="container mt-5">
+			<div class="col-md-4 collapse card card-body" id="spaceUseCode">
+				<table id="spaceUseCodeTable" class="table " style="width: 100%">
+					<thead>
+						<tr>
+							<th colspan="3">Space Use Code Options</th>
+						</tr>
+						<tr>
+							<!-- <th>ID</th> -->
+							<th>Name</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="spaceUseCode : ${spaceUseCodeOptions}">
+							<!-- <td th:text="${spaceUseCode.id}"></td> -->
+							<td th:text="${spaceUseCode.value}"></td>
+							<td><a class="btn btn-danger btn-delete"
+								th:href="@{/spaceUseCode/delete/{id}(id=${spaceUseCode.id})}">
+									<i class="bi bi-trash"></i>Delete
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col">
+						<button class="btn btn-success btn-add" data-bs-toggle="modal"
+							data-bs-target="#addOptionModalSpaceUseCode">
+							<i class="bi bi-plus"></i>Add
+						</button>
+					</div>
+				</div>
+			</div>
+
+
+
+			<!-- Modal for SpaceUseCode -->
+			<div class="modal fade" id="addOptionModalSpaceUseCode" tabindex="-1"
+				aria-labelledby="addOptionModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addOptionModalLabel">Add Option
+								for Space Use Code</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<!-- Form -->
+							<form id="addOptionForm" th:action="${addEndpointSpaceUseCode}"
+								method="post" th:object="${newDropdownOptionSpaceUseCode}">
+								<label>Name: </label> <input type="text" th:field="*{value}" />
+
+								<button class="btn btn-success" type="submit">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<!-- Space Condition Table -->
+		<div class="container mt-5">
+			<div class="col-md-4 collapse card card-body" id="spaceCondition">
+				<table id="spaceConditionTable" class="table" style="width: 100%">
+					<thead>
+						<tr>
+							<th colspan="3">Space Condition Options</th>
+						</tr>
+						<tr>
+							<!-- <th>ID</th> -->
+							<th>Name</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="spaceCondition : ${spaceConditionOptions}">
+							<!-- <td th:text="${spaceCondition.id}"></td> -->
+							<td th:text="${spaceCondition.value}"></td>
+							<td><a class="btn btn-danger btn-delete"
+								th:href="@{/spaceCondition/delete/{id}(id=${spaceCondition.id})}">
+									<i class="bi bi-trash"></i>Delete
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col">
+						<a class="btn btn-success btn-add" data-bs-toggle="modal"
+							data-bs-target="#addOptionModalSpaceCondition"> <i
+							class="bi bi-plus"></i>Add
+						</a>
+
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Modal for SpaceCondition-->
+			<div class="modal fade" id="addOptionModalSpaceCondition"
+				tabindex="-1" aria-labelledby="addOptionModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addOptionModalLabel">Add Option
+								for Space Condition</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<!-- Form -->
+							<form id="addOptionForm" th:action="${addEndpointSpaceCondition}"
+								method="post" th:object="${newDropdownOptionSpaceCondition}">
+								<label>Name: </label> <input type="text" th:field="*{value}" />
+
+								<button class="btn btn-success" type="submit">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+		<!-- Furniture Table -->
+		<div class="container mt-5">
+			<div class="col-md-4 collapse card card-body" id="furniture">
+				<table id="furnitureTable" class="table " style="width: 100%">
+					<thead>
+						<tr>
+							<th colspan="3">Furniture Options</th>
+						</tr>
+						<tr>
+							<!-- <th>ID</th> -->
+							<th>Name</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="furniture : ${furnitureOptions}">
+							<!-- <td th:text="${furniture.id}"></td> -->
+							<td th:text="${furniture.value}"></td>
+							<td><a class="btn btn-danger btn-delete"
+								th:href="@{/furniture/delete/{id}(id=${furniture.id})}"> <i
+									class="bi bi-trash"></i>Delete
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col">
+						<button class="btn btn-success btn-add" data-bs-toggle="modal"
+							data-bs-target="#addOptionModalFurniture">
+							<i class="bi bi-plus"></i>Add
+						</button>
+					</div>
+				</div>
+			</div>
+
+
+
+			<!-- Modal for Furniture -->
+			<div class="modal fade" id="addOptionModalFurniture" tabindex="-1"
+				aria-labelledby="addOptionModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addOptionModalLabel">Add Option
+								for Space Use Code</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<!-- Form -->
+							<form id="addOptionForm" th:action="${addEndpointFurniture}"
+								method="post" th:object="${newDropdownOptionFurniture}">
+								<label>Name: </label> <input type="text" th:field="*{value}" />
+
+								<button class="btn btn-success" type="submit">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<!-- Structural Features Table -->
+		<div class="container mt-5">
+			<div class="col-md-4 collapse card card-body" id="structuralFeatures">
+				<table id="structuralFeaturesTable" class="table "
+					style="width: 100%">
+					<thead>
+						<tr>
+							<th colspan="3">Structural Features Options</th>
+						</tr>
+						<tr>
+							<!-- <th>ID</th> -->
+							<th>Name</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="structuralFeatures : ${structuralFeaturesOptions}">
+							<!-- <td th:text="${structuralFeatures.id}"></td> -->
+							<td th:text="${structuralFeatures.value}"></td>
+							<td><a class="btn btn-danger btn-delete"
+								th:href="@{/structuralFeatures/delete/{id}(id=${structuralFeatures.id})}">
+									<i class="bi bi-trash"></i>Delete
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col">
+						<button class="btn btn-success btn-add" data-bs-toggle="modal"
+							data-bs-target="#addOptionModalStructuralFeatures">
+							<i class="bi bi-plus"></i>Add
+						</button>
+					</div>
+				</div>
+			</div>
+
+
+
+			<!-- Modal for StructuralFeatures -->
+			<div class="modal fade" id="addOptionModalStructuralFeatures"
+				tabindex="-1" aria-labelledby="addOptionModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addOptionModalLabel">Add Option
+								for Structural Features</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<!-- Form -->
+							<form id="addOptionForm"
+								th:action="${addEndpointStructuralFeatures}" method="post"
+								th:object="${newDropdownOptionStructuralFeatures}">
+								<label>Name: </label> <input type="text" th:field="*{value}" />
+
+								<button class="btn btn-success" type="submit">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<!-- Zoom Table -->
+		<div class="container mt-5">
+			<div class="col-md-4 collapse card card-body" id="zoom">
+				<table id="zoomTable" class="table " style="width: 100%">
+					<thead>
+						<tr>
+							<th colspan="3">Zoom Options</th>
+						</tr>
+						<tr>
+							<!-- <th>ID</th> -->
+							<th>Name</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="zoom : ${zoomOptions}">
+							<!-- <td th:text="${zoom.id}"></td> -->
+							<td th:text="${zoom.value}"></td>
+							<td><a class="btn btn-danger btn-delete"
+								th:href="@{/zoom/delete/{id}(id=${zoom.id})}"> <i
+									class="bi bi-trash"></i>Delete
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col">
+						<button class="btn btn-success btn-add" data-bs-toggle="modal"
+							data-bs-target="#addOptionModalZoom">
+							<i class="bi bi-plus"></i>Add
+						</button>
+					</div>
+				</div>
+			</div>
+
+
+
+			<!-- Modal for Zoom -->
+			<div class="modal fade" id="addOptionModalZoom" tabindex="-1"
+				aria-labelledby="addOptionModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addOptionModalLabel">Add Option
+								for Zoom</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<!-- Form -->
+							<form id="addOptionForm" th:action="${addEndpointZoom}"
+								method="post" th:object="${newDropdownOptionZoom}">
+								<label>Name: </label> <input type="text" th:field="*{value}" />
+
+								<button class="btn btn-success" type="submit">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<!-- Podium Station Type Table -->
+		<div class="container mt-5">
+			<div class="col-md-4 collapse card card-body" id="podiumStationType">
+				<table id="podiumStationTypeTable" class="table" style="width: 100%">
+					<thead>
+						<tr>
+							<th colspan="3">Podium Station Type Options</th>
+						</tr>
+						<tr>
+							<!-- <th>ID</th> -->
+							<th>Name</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="podiumStationType : ${podiumStationTypeOptions}">
+							<!-- <td th:text="${podiumStationType.id}"></td> -->
+							<td th:text="${podiumStationType.value}"></td>
+							<td><a class="btn btn-danger btn-delete"
+								th:href="@{/podiumStationType/delete/{id}(id=${podiumStationType.id})}">
+									<i class="bi bi-trash"></i>Delete
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col">
+						<a class="btn btn-success btn-add" data-bs-toggle="modal"
+							data-bs-target="#addOptionModalPodiumStationType"> <i
+							class="bi bi-plus"></i>Add
+						</a>
+
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Modal for PodiumStationType-->
+			<div class="modal fade" id="addOptionModalPodiumStationType"
+				tabindex="-1" aria-labelledby="addOptionModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addOptionModalLabel">Add Option
+								for Podium Station Type</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<!-- Form -->
+							<form id="addOptionForm"
+								th:action="${addEndpointPodiumStationType}" method="post"
+								th:object="${newDropdownOptionPodiumStationType}">
+								<label>Name: </label> <input type="text" th:field="*{value}" />
+
+								<button class="btn btn-success" type="submit">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<!-- Console Comp Model Table -->
+		<div class="container mt-5">
+			<div class="col-md-4 collapse card card-body" id="consoleCompModel">
+				<table id="consoleCompModelTable" class="table" style="width: 100%">
+					<thead>
+						<tr>
+							<th colspan="3">Console Comp Model Options</th>
+						</tr>
+						<tr>
+							<!-- <th>ID</th> -->
+							<th>Name</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="consoleCompModel : ${consoleCompModelOptions}">
+							<!-- <td th:text="${consoleCompModel.id}"></td> -->
+							<td th:text="${consoleCompModel.value}"></td>
+							<td><a class="btn btn-danger btn-delete"
+								th:href="@{/consoleCompModel/delete/{id}(id=${consoleCompModel.id})}">
+									<i class="bi bi-trash"></i>Delete
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col">
+						<a class="btn btn-success btn-add" data-bs-toggle="modal"
+							data-bs-target="#addOptionModalConsoleCompModel"> <i
+							class="bi bi-plus"></i>Add
+						</a>
+
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Modal for ConsoleCompModel-->
+			<div class="modal fade" id="addOptionModalConsoleCompModel"
+				tabindex="-1" aria-labelledby="addOptionModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addOptionModalLabel">Add Option
+								for Console Comp Model</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<!-- Form -->
+							<form id="addOptionForm"
+								th:action="${addEndpointConsoleCompModel}" method="post"
+								th:object="${newDropdownOptionConsoleCompModel}">
+								<label>Name: </label> <input type="text" th:field="*{value}" />
+
+								<button class="btn btn-success" type="submit">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Proj Display Type Table -->
+		<div class="container mt-5">
+			<div class="col-md-4 collapse card card-body" id="projDisplayType">
+				<table id="projDisplayTypeTable" class="table" style="width: 100%">
+					<thead>
+						<tr>
+							<th colspan="3">Proj Display Type Options</th>
+						</tr>
+						<tr>
+							<!-- <th>ID</th> -->
+							<th>Name</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="projDisplayType : ${projDisplayTypeOptions}">
+							<!-- <td th:text="${projDisplayType.id}"></td> -->
+							<td th:text="${projDisplayType.value}"></td>
+							<td><a class="btn btn-danger btn-delete"
+								th:href="@{/projDisplayType/delete/{id}(id=${projDisplayType.id})}">
+									<i class="bi bi-trash"></i>Delete
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col">
+						<a class="btn btn-success btn-add" data-bs-toggle="modal"
+							data-bs-target="#addOptionModalProjDisplayType"> <i
+							class="bi bi-plus"></i>Add
+						</a>
+
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Modal for ProjDisplayType-->
+			<div class="modal fade" id="addOptionModalProjDisplayType"
+				tabindex="-1" aria-labelledby="addOptionModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addOptionModalLabel">Add Option
+								for Proj Display Type</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<!-- Form -->
+							<form id="addOptionForm"
+								th:action="${addEndpointProjDisplayType}" method="post"
+								th:object="${newDropdownOptionProjDisplayType}">
+								<label>Name: </label> <input type="text" th:field="*{value}" />
+
+								<button class="btn btn-success" type="submit">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<!-- Proj Make Model Number Table -->
+		<div class="container mt-5">
+			<div class="col-md-4 collapse card card-body"
+				id="projMakeModelNumber">
+				<table id="projMakeModelNumberTable" class="table"
+					style="width: 100%">
+					<thead>
+						<tr>
+							<th colspan="3">Proj Make Model Number Options</th>
+						</tr>
+						<tr>
+							<!-- <th>ID</th> -->
+							<th>Name</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="projMakeModelNumber : ${projMakeModelNumberOptions}">
+							<!-- <td th:text="${projMakeModelNumber.id}"></td> -->
+							<td th:text="${projMakeModelNumber.value}"></td>
+							<td><a class="btn btn-danger btn-delete"
+								th:href="@{/projMakeModelNumber/delete/{id}(id=${projMakeModelNumber.id})}">
+									<i class="bi bi-trash"></i>Delete
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col">
+						<a class="btn btn-success btn-add" data-bs-toggle="modal"
+							data-bs-target="#addOptionModalProjMakeModelNumber"> <i
+							class="bi bi-plus"></i>Add
+						</a>
+
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Modal for ProjMakeModelNumber-->
+			<div class="modal fade" id="addOptionModalProjMakeModelNumber"
+				tabindex="-1" aria-labelledby="addOptionModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addOptionModalLabel">Add Option
+								for Proj Make Model Number</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<!-- Form -->
+							<form id="addOptionForm"
+								th:action="${addEndpointProjMakeModelNumber}" method="post"
+								th:object="${newDropdownOptionProjMakeModelNumber}">
+								<label>Name: </label> <input type="text" th:field="*{value}" />
+
+								<button class="btn btn-success" type="submit">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Creston Model Table -->
+		<div class="container mt-5">
+			<div class="col-md-4 collapse card card-body" id="crestonModel">
+				<table id="crestonModelTable" class="table" style="width: 100%">
+					<thead>
+						<tr>
+							<th colspan="3">Creston Model Options</th>
+						</tr>
+						<tr>
+							<!-- <th>ID</th> -->
+							<th>Name</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="crestonModel : ${crestonModelOptions}">
+							<!-- <td th:text="${crestonModel.id}"></td> -->
+							<td th:text="${crestonModel.value}"></td>
+							<td><a class="btn btn-danger btn-delete"
+								th:href="@{/crestonModel/delete/{id}(id=${crestonModel.id})}">
+									<i class="bi bi-trash"></i>Delete
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col">
+						<a class="btn btn-success btn-add" data-bs-toggle="modal"
+							data-bs-target="#addOptionModalCrestonModel"> <i
+							class="bi bi-plus"></i>Add
+						</a>
+
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Modal for CrestonModel-->
+			<div class="modal fade" id="addOptionModalCrestonModel" tabindex="-1"
+				aria-labelledby="addOptionModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addOptionModalLabel">Add Option
+								for Creston Model</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<!-- Form -->
+							<form id="addOptionForm" th:action="${addEndpointCrestonModel}"
+								method="post" th:object="${newDropdownOptionCrestonModel}">
+								<label>Name: </label> <input type="text" th:field="*{value}" />
+
+								<button class="btn btn-success" type="submit">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Audio Desc Table -->
+		<div class="container mt-5">
+			<div class="col-md-4 collapse card card-body" id="audioDesc">
+				<table id="audioDescTable" class="table" style="width: 100%">
+					<thead>
+						<tr>
+							<th colspan="3">Audio Desc Options</th>
+						</tr>
+						<tr>
+							<!-- <th>ID</th> -->
+							<th>Name</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="audioDesc : ${audioDescOptions}">
+							<!-- <td th:text="${audioDesc.id}"></td> -->
+							<td th:text="${audioDesc.value}"></td>
+							<td><a class="btn btn-danger btn-delete"
+								th:href="@{/audioDesc/delete/{id}(id=${audioDesc.id})}"> <i
+									class="bi bi-trash"></i>Delete
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col">
+						<a class="btn btn-success btn-add" data-bs-toggle="modal"
+							data-bs-target="#addOptionModalAudioDesc"> <i
+							class="bi bi-plus"></i>Add
+						</a>
+
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Modal for AudioDesc-->
+			<div class="modal fade" id="addOptionModalAudioDesc" tabindex="-1"
+				aria-labelledby="addOptionModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addOptionModalLabel">Add Option
+								for Audio Desc</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<!-- Form -->
+							<form id="addOptionForm" th:action="${addEndpointAudioDesc}"
+								method="post" th:object="${newDropdownOptionAudioDesc}">
+								<label>Name: </label> <input type="text" th:field="*{value}" />
+
+								<button class="btn btn-success" type="submit">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		<!-- Inter White Board Table -->
+		<div class="container mt-5">
+			<div class="col-md-4 collapse card card-body" id="interWhiteBoard">
+				<table id="interWhiteBoardTable" class="table" style="width: 100%">
+					<thead>
+						<tr>
+							<th colspan="3">Inter White Board Options</th>
+						</tr>
+						<tr>
+							<!-- <th>ID</th> -->
+							<th>Name</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="interWhiteBoard : ${interWhiteBoardOptions}">
+							<!-- <td th:text="${interWhiteBoard.id}"></td> -->
+							<td th:text="${interWhiteBoard.value}"></td>
+							<td><a class="btn btn-danger btn-delete"
+								th:href="@{/interWhiteBoard/delete/{id}(id=${interWhiteBoard.id})}"> <i
+									class="bi bi-trash"></i>Delete
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col">
+						<a class="btn btn-success btn-add" data-bs-toggle="modal"
+							data-bs-target="#addOptionModalInterWhiteBoard"> <i
+							class="bi bi-plus"></i>Add
+						</a>
+
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Modal for InterWhiteBoard-->
+			<div class="modal fade" id="addOptionModalInterWhiteBoard" tabindex="-1"
+				aria-labelledby="addOptionModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addOptionModalLabel">Add Option
+								for Inter White Board</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<!-- Form -->
+							<form id="addOptionForm" th:action="${addEndpointInterWhiteBoard}"
+								method="post" th:object="${newDropdownOptionInterWhiteBoard}">
+								<label>Name: </label> <input type="text" th:field="*{value}" />
+
+								<button class="btn btn-success" type="submit">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Buildings Table -->
+		<div class="container mt-5">
+			<div class="col-md-4 collapse card card-body" id="buildings">
+				<table id="buildingsTable" class="table" style="width: 100%">
+					<thead>
+						<tr>
+							<th colspan="3">Buildings Options</th>
+						</tr>
+						<tr>
+							<!-- <th>ID</th> -->
+							<th>Name</th>
+							<th>Year Built</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="buildings : ${buildingsOptions}">
+							<!-- <td th:text="${interWhiteBoard.id}"></td> -->
+							<td th:text="${buildings.buildingName}"></td>
+							<td th:text="${buildings.yearBuilt}"></td>
+							<td><a class="btn btn-danger btn-delete"
+								th:href="@{/buildings/delete/{id}(id=${buildings.id})}"> <i
+									class="bi bi-trash"></i>Delete
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col">
+						<a class="btn btn-success btn-add" data-bs-toggle="modal"
+							data-bs-target="#addOptionModalBuildings"> <i
+							class="bi bi-plus"></i>Add
+						</a>
+
+					</div>
+				</div>
+			</div>
+		
+		<!-- Modal for Buildings -->
+			<div class="modal fade" id="addOptionModalBuildings" tabindex="-1"
+				aria-labelledby="addOptionModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addOptionModalLabel">Add Option
+								for Buildings</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<!-- Form -->
+							<form id="addOptionForm" th:action="${addEndpointBuildings}"
+								method="post" th:object="${newDropdownOptionBuildings}">
+								<label>Name: </label> <input type="text" th:field="*{buildingName}" />
+								<label>Name: </label> <input type="text" th:field="*{yearBuilt}" />
+
+								<button class="btn btn-success" type="submit">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		
+
+		<!--<div style="clear: both;"></div>-->
+
+		<script>
+			$(document)
+					.ready(
+							function() {
+								let spaceUseCodeTable = $('#spaceUseCodeTable')
+										.DataTable();
+								let spaceConditionTable = $(
+										'#spaceConditionTable').DataTable();
+								let furnitureTable = $('#furnitureTable')
+										.DataTable();
+								let structuralFeaturesTable = $(
+										'#structuralFeaturesTable').DataTable();
+								let zoomTable = $('#zoomTable').DataTable();
+								let podiumStationTypeTable = $(
+										'#podiumStationTypeTable').DataTable();
+								let consoleCompModelTable = $(
+										'#consoleCompModelTable').DataTable();
+								let projDisplayTypeTable = $(
+										'#projDisplayTypeTable').DataTable();
+								let projMakeModelNumber = $(
+										'#projMakeModelNumberTable')
+										.DataTable();
+								let crestonModelTable = $('#crestonModelTable')
+										.DataTable();
+								let audioDescTable = $('#audioDescTable')
+										.DataTable();
+								let interWhiteBoardTable = $('#interWhiteBoardTable')
+								.DataTable();
+								let buildingsTable = $('#buildingsTable')
+								.DataTable();
+
+								// Add other tables
+							});
+
+			var $myGroup = $('#myGroup');
+			$myGroup.on('show.bs.collapse', '.collapse', function() {
+				$myGroup.find('.collapse.show').collapse('hide');
+			});
+		</script>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,676 @@
+<!--<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+ Webpage Title 
+<title>SRU Classroom Database</title>
+
+ Table border 
+<style>
+table, th, td
+{
+	border: solid;
+}
+</style>
+
+<script>
+//Function to click different tabs and display their content
+function openTab(event, tabName) {
+	var i, tabContent, tabTitles;
+	tabContent = document.getElementsByClassName("TabContent");
+	for (i = 0; i < tabContent.length; i++) {
+		tabContent[i].style.display = "none";
+	}
+	tabTitles = document.getElementsByClassName("TabTitles");
+	for (i = 0; i < tabTitles.length; i++) {
+		tabTitles[i].className = tabTitles[i].className.replace(" active", "");
+	}
+	document.getElementById(tabName).style.display = "block";
+	event.currentTarget.className += " active";
+}
+
+//Function to search for a specific value in entries
+function search(searchInput, tableName) {	
+	var input, filter, table, tr, td, i, j, txt;
+	input = document.getElementById(searchInput);
+	filter = input.value.toUpperCase();
+	table = document.getElementById(tableName);
+	tr = table.getElementsByTagName("tr");
+	for (i = 0; i < tr.length; i++) {
+		td = tr[i].getElementsByTagName("td")[0];
+		if (td) {
+			txt = td.textContent || td.innerText;
+			if (txt.toUpperCase().indexOf(filter) > -1) {
+				tr[i].style.display = "";
+			} 
+			else {
+				tr[i].style.display = "none";
+			}
+		}
+	}       
+}
+</script>
+</head>
+
+
+<body>
+ University logo, title, and welcome message 
+<div align = "center">
+<img src = "https://www.sru.edu/documents/offices/public-affairs/logos/sru-wordmark-green.png" alt = "SRU Logo" width = "320" length = "100">
+<h1>SRU Classroom Database</h1>
+<p>Welcome to the Slippery Rock University classroom database! Please select a tab to view either the Database or the Data Grid.</p>
+</div>
+
+ Tab Buttons 
+<div align = "center">
+	<button class = "TabTitles" onclick = "openTab(event, 'Database')">Database</button>
+	<button class = "TabTitles" onclick = "openTab(event, 'DataGrid')">Data Grid</button>
+	<button class = "TabTitles" onclick = "openTab(event, 'ManageUsers')">Manage Users (Admin Only)</button>
+	<br><br><br>
+</div>
+<hr>
+
+ Database tab content 
+<div id = "Database" class = "TabContent">
+	<h2>Database</h2>
+	Search bar to filter data by specified value 
+	<input type = "text" id = "DatabaseSearch" onkeyup = "search('DatabaseSearch', 'Database')" placeholder = "Search">
+	<br><br>
+	 Table displaying rooms in SRU database 
+	<table id = "Database" style = "border: solid">
+	<tr>
+		<td>
+			<img src = "https://img.freepik.com/premium-photo/classroom-computers-empty-no-people-with-many-monitor-computer-white-desk_37129-569.jpg"> 
+			<h3>224 ATS, UNIX Laboratory</h3>
+			Space Condition: Good<br> 
+			Square Footage: 40X50 sq ft<br>
+			Furniture: chairs, desks, podium<br>
+			Max Occupancy: 40
+			Communication: Yes<br>
+			Electrical Services: Yes<br>
+			Gas Services: No<br>
+			Water Services: No<br>
+			Zoom: Room has microphone and camera<br>
+			Desktop Computer OS: Windows
+		</td>
+	</tr>
+	<tr>
+		<td><img src = "https://media.istockphoto.com/id/1415740420/photo/computers-in-empty-classroom-on-high-school.webp?b=1&s=170667a&w=0&k=20&c=C7WX8DVH4mJoWW-kynveOBk_CoEjT00Mb11Fgl5FVZ8="> 
+			<h3>232 ATS, Computer Laboratory</h3>
+			Space Condition: Excellent<br>
+			Square Footage: 50X60 sq ft<br>
+			Furniture: chairs, desks, podium<br>
+			Max Occupancy: 35<br>
+			Communication: Yes<br>
+			Electrical Services: Yes<br>
+			Gas Services: No<br>
+			Water Services: No<br>
+			Zoom: Room has microphone and camera<br>
+			Desktop Computer OS: Windows<br>
+		</td>
+	</table> 
+</div>
+
+ Data Grid tab content 
+<div id = "DataGrid" class = "TabContent" style = "display: none">
+	<h2>Data Grid</h2>
+	 Search bar to filter data by room number 
+	<input type = "text" id = "SearchBar" onkeyup = "search('SearchBar', 'DataGrid')" placeholder = "Search for room number">
+	<br><br>
+	 Table displaying Data Grid entries 
+	<table id = "DataGrid" style = "border: solid">
+	<tr>
+	<th>Room Number</th>
+		<th>Building</th>
+		<th>Space Name</th>
+		<th>Facilities</th>
+		<th>Architectural Features</th>
+		<th>Classroom IT Features</th>
+		<th>Computer Lab Features</th>
+	</tr>
+	<tr>
+		<td>224</td>
+		<td>ATS</td>
+		<td>UNIX Laboratory</td>
+		<td>Space Condition: Good<br> 
+		Square Footage: 40X50 sq ft<br>
+		Furniture: chairs, desks, podium<br>
+		Max Occupancy: 40</td>
+		<td>Communication: Yes<br>
+		Electrical Services: Yes<br>
+		Gas Services: No<br>
+		Water Services: No</td>
+		<td>Zoom: Room has microphone and camera</td>
+		<td>Desktop Computer OS: Windows</td>
+	</tr>
+	<tr>
+		<td>232</td>
+		<td>ATS</td>
+		<td>Computer Laboratory</td>
+		<td>Space Condition: Excellent<br> 
+		Square Footage: 50X60 sq ft<br>
+		Furniture: chairs, desks, podium<br>
+		Max Occupancy: 35</td>
+		<td>Communication: Yes<br>
+		Electrical Services: Yes<br>
+		Gas Services: No<br>
+		Water Services: No</td>
+		<td>Zoom: Room has microphone and camera</td>
+		<td>Desktop Computer OS: Windows</td>
+	</tr>
+	</table>
+</div>
+
+ Manage Users tab content 
+<div id = "ManageUsers" class = "TabContent" style = "display: none">
+	<h2>Manage Users</h2>
+	Search bar to filter data by ID number 
+	<input type="text" id = "ManageUsersSearch" onkeyup = "search('ManageUsersSearch', 'ManageUsers')" placeholder = "Search for ID number">
+	<br><br>
+	 Table displaying users who have access to the database and their permissions 
+	<table id = "ManageUsers" style = "border: solid">
+	<tr>
+		<th>User ID</th>
+		<th>Last Name</th>
+		<th>First Name</th>
+		<th>Email</th>
+		<th>Roles</th>
+	</tr>
+	<tr>
+		<td>A01234567</td>
+		<td>Stapf</td>
+		<td>Samantha</td>
+		<td>sjs1038@sru.edu</td>
+		<td>Admin, User Read/Write</td>
+	</tr>
+	<tr>
+		<td>A02222222</td>
+		<td>Smith</td>
+		<td>Joe</td>
+		<td>jjs1000@sru.edu</td>
+		<td>User Read</td>
+	</tr>
+	</table> 
+</div>
+</body>
+</html> 
+ 
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room List</title>
+    Add Bootstrap CSS link here
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col">
+            <h2>Rooms</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Room Number</th>
+                    <th>Building Name</th>
+                    <th>Space Name</th>
+                    <th>Facilities</th>
+                    <th>Structural Features</th>
+                    <th>Classroom Features</th>
+                    <th>Computer Lab Features</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="room : ${rooms}">
+                    <td th:text="${room.roomNumber}"></td>
+                    <td th:text="${room.buildingName}"></td>
+                    <td th:text="${room.spaceName}"></td>
+
+                    <td><a class="btn btn-primary" th:href="@{/edit/{id}(id=${room.id})}">Edit</a></td>
+                    <td><a class="btn btn-danger" th:href="@{/delete/{id}(id=${room.id})}">Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p><a class="btn btn-success" th:href="@{/signup}">Add a new room</a></p>
+        </div>
+    </div>
+</div>
+
+Add Bootstrap JS and Popper.js links here
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+</body>
+</html> -->
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room List</title>
+    <!-- Add Bootstrap CSS link here -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col">
+            <h2>Rooms</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Room Number</th>
+                    <th>Building Name</th>
+                    <th>Space Name</th>
+                    <th>Facilities</th>
+                    <th>Structural Features</th>
+                    <th>Classroom Features</th>
+                    <th>Computer Lab Features</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="room : ${rooms}">
+                    <td th:text="${room.roomNumber}"></td>
+                    <td th:text="${room.buildingName}"></td>
+                    <td th:text="${room.spaceName}"></td>
+                    <td>
+                        <!-- Access the facilities data of the current room -->
+                        <ul>
+                            <li th:text="${room.facilities.spaceCondition}"></li>
+                            <li th:text="${room.facilities.spaceUseCode}"></li>
+                            <li th:text="${room.facilities.netSquareFootage}"></li>
+                            <!-- Add other facilities attributes as needed -->
+                        </ul>
+                    </td>
+                    <!-- Add other columns for structural, classroom, and computer lab features -->
+                    <td><a class="btn btn-primary" th:href="@{/edit/{id}(id=${room.id})}">Edit</a></td>
+                    <td><a class="btn btn-danger" th:href="@{/delete/{id}(id=${room.id})}">Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p><a class="btn btn-success" th:href="@{/signup}">Add a new room</a></p>
+        </div>
+    </div>
+</div>
+
+<!-- Add Bootstrap JS and Popper.js links here -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Room Management Data Table</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        body {
+            color: #566787;
+            background: #f5f5f5;
+            font-family: 'Varela Round', sans-serif;
+            font-size: 13px;
+        }
+        .table-responsive {
+            margin: 30px 0;
+        }
+        .table-wrapper {
+            min-width: 1000px;
+            background: #fff;
+            padding: 20px 25px;
+            border-radius: 3px;
+            box-shadow: 0 1px 1px rgba(0,0,0,.05);
+        }
+        .table-title {
+            padding-bottom: 15px;
+            background: #299be4;
+            color: #fff;
+            padding: 16px 30px;
+            margin: -20px -25px 10px;
+            border-radius: 3px 3px 0 0;
+        }
+        .table-title h2 {
+            margin: 5px 0 0;
+            font-size: 24px;
+        }
+        .table-title .btn {
+            color: #566787;
+            float: right;
+            font-size: 13px;
+            background: #fff;
+            border: none;
+            min-width: 50px;
+            border-radius: 2px;
+            border: none;
+            outline: none !important;
+            margin-left: 10px;
+        }
+        .table-title .btn:hover, .table-title .btn:focus {
+            color: #566787;
+            background: #f2f2f2;
+        }
+        .table-title .btn i {
+            float: left;
+            font-size: 21px;
+            margin-right: 5px;
+        }
+        .table-title .btn span {
+            float: left;
+            margin-top: 2px;
+        }
+        table.table tr th, table.table tr td {
+            border-color: #e9e9e9;
+            padding: 12px 15px;
+            vertical-align: middle;
+        }
+        table.table tr th:first-child {
+            width: 60px;
+        }
+        table.table tr th:last-child {
+            width: 100px;
+        }
+        table.table-striped tbody tr:nth-of-type(odd) {
+            background-color: #fcfcfc;
+        }
+        table.table-striped.table-hover tbody tr:hover {
+            background: #f5f5f5;
+        }
+        table.table th i {
+            font-size: 13px;
+            margin: 0 5px;
+            cursor: pointer;
+        }   
+        table.table td:last-child i {
+            opacity: 0.9;
+            font-size: 22px;
+            margin: 0 5px;
+        }
+        table.table td a {
+            font-weight: bold;
+            color: #566787;
+            display: inline-block;
+            text-decoration: none;
+        }
+        table.table td a:hover {
+            color: #2196F3;
+        }
+        table.table td a.settings {
+            color: #2196F3;
+        }
+        table.table td a.delete {
+            color: #F44336;
+        }
+        table.table td i {
+            font-size: 19px;
+        }
+        .pagination {
+            float: right;
+            margin: 0 0 5px;
+        }
+        .pagination li a {
+            border: none;
+            font-size: 13px;
+            min-width: 30px;
+            min-height: 30px;
+            color: #999;
+            margin: 0 2px;
+            line-height: 30px;
+            border-radius: 2px !important;
+            text-align: center;
+            padding: 0 6px;
+        }
+        .pagination li a:hover {
+            color: #666;
+        }   
+        .pagination li.active a, .pagination li.active a.page-link {
+            background: #03A9F4;
+        }
+        .pagination li.active a:hover {        
+            background: #0397d6;
+        }
+        .pagination li.disabled i {
+            color: #ccc;
+        }
+        .pagination li i {
+            font-size: 16px;
+            padding-top: 6px
+        }
+        .hint-text {
+            float: left;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+    </style>
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-xs-5">
+                        <h2>Room <b>Management</b></h2>
+                    </div>
+                    <div class="col-xs-7">
+                        <a href="/signup" class="btn btn-primary"><i class="material-icons">&#xE147;</i> <span>Add New Room</span></a>
+                         Add export functionality if needed 
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Room Number</th>
+                        <th>Building Name</th>
+                        <th>Space Name</th>
+                         Add headers for other properties as needed 
+                        <                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     Loop through your rooms and display information 
+                    <tr th:each="room : ${rooms}">
+                        <td th:text="${room.roomNumber}"></td>
+                        <td th:text="${room.buildingName}"></td>
+                        <td th:text="${room.spaceName}"></td>
+                         Add cells for other properties as needed 
+                        <td>
+                            <a th:href="@{/edit/{id}(id=${room.id})}" class="settings" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                            <a th:href="@{/delete/{id}(id=${room.id})}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="clearfix">
+                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                <ul class="pagination">
+                    <li class="page-item disabled"><a href="#">Previous</a></li>
+                    <li class="page-item"><a href="#" class="page-link">1</a></li>
+                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+                    <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                    <li class="page-item"><a href="#" class="page-link">4</a></li>
+                    <li class="page-item"><a href="#" class="page-link">5</a></li>
+                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+-->
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room List</title>
+    Add Bootstrap CSS link here
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    Additional styles
+    <link href="index.css" rel="stylesheet">
+    <style type="text/css">
+    .bg-mynav {
+  background-color: #2c3e50;
+}
+
+body {
+  font-size: 1.25rem;
+  background-color: #f6f8fa;
+}
+
+td {
+  line-height: 3rem;
+}
+    
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-mynav">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">My App</a>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col">
+            <h2>Rooms</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Room Number</th>
+                    <th>Building Name</th>
+                    <th>Space Name</th>
+                    <th>Facilities</th>
+                    <th>Structural Features</th>
+                    <th>Classroom Features</th>
+                    <th>Computer Lab Features</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="room : ${rooms}">
+                    <td th:text="${room.roomNumber}"></td>
+                    <td th:text="${room.buildingName}"></td>
+                    <td th:text="${room.spaceName}"></td>
+                    <td><a class="btn btn-primary" th:href="@{/edit/{id}(id=${room.id})}">Edit</a></td>
+                    <td><a class="btn btn-danger" th:href="@{/delete/{id}(id=${room.id})}">Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p><a class="btn btn-success" th:href="@{/signup}">Add a new room</a></p>
+        </div>
+    </div>
+</div>
+
+Add Bootstrap JS and Popper.js links here
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+
+ -->

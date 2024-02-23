@@ -1,0 +1,63 @@
+package edu.sru.group7.roomallocation.domain;
+
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+
+public class Projector {
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+	@OneToOne
+    @PrimaryKeyJoinColumn
+    private Rooms room;
+	
+	
+	@ManyToOne
+	@JoinColumn(name="proj1_make_model_id")
+    private ProjMakeModelNumber proj1MakeModelNumber;
+	
+	private String proj1IPAddress;
+	private String proj1SerialNumber;
+	private String proj1Hours;
+    private String proj1Install;
+	
+	
+	
+	@ManyToOne
+	@JoinColumn(name="proj2_make_model_id")
+    private ProjMakeModelNumber proj2MakeModelNumber;
+	
+	private String proj2IPAddress;
+	private String proj2SerialNumber;
+	private String proj2Hours;
+    private String proj2Install;
+	
+	
+	
+	@ManyToOne
+	@JoinColumn(name="proj3_make_model_id")
+    private ProjMakeModelNumber proj3MakeModelNumber;
+	
+	private String proj3IPAddress;
+	private String proj3SerialNumber;
+	private String proj3Hours;
+    private String proj3Install;
+	
+	
+	
+	@ManyToOne
+	@JoinColumn(name="proj4_make_model_id")
+    private ProjMakeModelNumber proj4MakeModelNumber;
+	
+	private String proj4IPAddress;
+	private String proj4SerialNumber;
+	private String proj4Hours;
+    private String proj4Install;
+}

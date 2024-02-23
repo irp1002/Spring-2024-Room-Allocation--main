@@ -1,0 +1,179 @@
+@startuml
+!define ENTITY class
+!theme crt-amber
+
+hide circle
+
+ENTITY Buildings {
+*buildingID : Integer <<PK>>
+buildingName: String
+
+}
+
+ENTITY Rooms {
+  *id : Integer <<PK>>
+  roomNumber: Integer
+  buildingName: Integer
+  spaceName: String
+  image: String
+  --
+  building_id : Integer <<FK>>
+}
+
+ENTITY Facilities {
+netSquareFootage: Integer
+numberStations: Integer
+numberADAStation: Integer
+maxOccupantCap: Integer
+fireCap: Integer
+  --
+  id : Integer <<FK>>
+space_condition_id : Integer <<FK>>
+space_use_code_id : Integer <<FK>>
+furniture_id : Integer <<FK>>
+}
+
+ENTITY StructuralArchitecturalFeatures {
+  specialCharacters: String
+communication: Boolean
+electricalServ: Boolean
+gasServ: Boolean
+spPlumbingServ: Boolean
+tempConserv: Boolean
+ventilatingServ: Boolean
+waterServ: Boolean
+notes: String
+--
+  id : Integer <<FK>>
+structural_features_id : Integer <<FK>>
+}
+
+ENTITY ClassRoomITFeatures {
+ consoleCompSpecs: String
+consoleCompWarranty: String
+consoleCompInstall: String
+numberProj: Integer
+projIPAddress: String
+projInstall: String
+crestonSerialNumber: String
+crestonIPAddress: String 
+voiceLift: String
+docCam: Boolean
+iwbInstall: String
+uniqueFeatures: String
+--
+  id : Integer <<FK>>
+zoom_id : Integer <<FK>>
+podium_station_id : Integer <<FK>>
+console_comp_model_id : Integer <<FK>>
+project_display_type_id : Integer <<FK>>
+proj_make_model_id : Integer <<FK>>
+creston_model_id : Integer <<FK>>
+audio_desc_id : Integer <<FK>>
+white_board_id : Integer <<FK>>
+}
+
+ENTITY ComputerLabIT {
+ numberDesktopComp: Integer
+desktopCompOS: String
+desktopCompApp: String
+desktopCompInstall: String
+computerDesksDesc: String
+wireAccPt: String
+dataCabling: String
+floorBoxes: String
+uniqueFeatures: String
+--
+  id : Integer <<FK>>
+}
+
+ENTITY DropdownOption {
+  *id : Integer <<PK>>
+value: String
+}
+
+ENTITY AudioDesc {
+*id : Integer <<PK>>
+
+}
+
+ENTITY ConsoleCompMode {
+*id : Integer <<PK>>
+}
+
+ENTITY CrestonModel {
+  *id : Integer <<PK>>
+}
+
+ENTITY Furniture {
+  *id : Integer <<PK>>
+}
+
+ENTITY InterWhiteBoard {
+  *id : Integer <<PK>>
+}
+
+ENTITY PodiumStationType {
+  *id : Integer <<PK>>
+}
+
+ENTITY ProjDisplayType {
+  *id : Integer <<PK>>
+}
+
+ENTITY ProjMakeModelNumber {
+  *id : Integer <<PK>>
+}
+
+ENTITY SpaceCondition {
+  *id : Integer <<PK>>
+}
+
+ENTITY SpaceUseCode {
+  *id : Integer <<PK>>
+}
+
+ENTITY StructuralFeatures {
+  *id : Integer <<PK>>
+}
+
+ENTITY Zoom {
+  *id : Integer <<PK>>
+}
+
+Buildings ||--|{ Rooms
+
+Rooms ||--|| Facilities
+Rooms ||--|| StructuralArchitecturalFeatures
+Rooms ||--|| ClassRoomITFeatures
+Rooms ||--|| ComputerLabIT
+
+DropdownOption <|-- AudioDesc
+DropdownOption <|-- ConsoleCompMode
+DropdownOption <|-- CrestonModel
+DropdownOption <|-- Furniture
+DropdownOption <|-- InterWhiteBoard
+DropdownOption <|-- PodiumStationType
+DropdownOption <|-- ProjDisplayType
+DropdownOption <|-- ProjMakeModelNumber
+DropdownOption <|-- SpaceCondition
+DropdownOption <|-- SpaceUseCode
+DropdownOption <|-- StructuralFeatures
+DropdownOption <|-- Zoom
+
+
+Facilities }|---|| SpaceCondition
+Facilities }|---|| SpaceUseCode
+Facilities }|---|| Furniture
+
+StructuralFeatures }|---|| StructuralArchitecturalFeatures
+
+ClassRoomITFeatures }|---|| Zoom
+ClassRoomITFeatures }|---|| PodiumStationType
+ClassRoomITFeatures }|---|| ConsoleCompMode
+ClassRoomITFeatures }|---|| ProjDisplayType
+ClassRoomITFeatures }|---|| ProjMakeModelNumber
+ClassRoomITFeatures }|---|| CrestonModel
+ClassRoomITFeatures }|---|| AudioDesc
+ClassRoomITFeatures }|---|| InterWhiteBoard
+@enduml

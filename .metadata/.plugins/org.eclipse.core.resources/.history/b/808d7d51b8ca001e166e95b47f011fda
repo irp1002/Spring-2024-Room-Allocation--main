@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Room List</title>
+<!-- <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css"
+	rel="stylesheet"> -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.20.0/font/bootstrap-icons.css">
+<!-- <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script> -->
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+.col-md-4 {
+	/* float: left; */
+	width: 45%;
+	box-sizing: border-box;
+	padding: 0 15px;
+	margin-bottom: 20px;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 20px;
+	border: 2px solid #ddd;
+	border-radius: 10px;
+}
+
+th, td {
+	padding: 8px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+
+th {
+	background-color: #f2f2f2;
+	border-bottom: 2px solid #ddd;
+}
+
+.btn-group {
+	margin-top: 5px;
+}
+
+.btn {
+	margin-right: 5px;
+	padding: 5px 10px;
+	font-size: 14px;
+}
+
+.btn-danger {
+	background-color: #dc3545; /* Red color for delete button */
+	color: #ffff;
+	font-size: 14px;
+}
+
+.btn-add, .btn-success {
+	background-color: #28a745; /* Green color for add button */
+	color: #ffff;
+	font-size: 14px;
+}
+
+tbody tr:hover {
+	cursor: pointer;
+	background-color: #dcdcdc;
+}
+</style>
+</head>
+<body>
+	<div class="container mt-5"id="myGroup">
+		<p class="d-inline-flex gap-1">
+			<button class="btn btn-primary" type="button"
+				data-bs-toggle="collapse" data-bs-target="#spaceUseCode"
+				aria-expanded="false"
+				aria-controls="spaceUseCode">Space Use Code</button>
+		</p>
+		<p class="d-inline-flex gap-1">
+			<button class="btn btn-primary" type="button"
+				data-bs-toggle="collapse" data-bs-target="#spaceCondition"
+				 aria-expanded="false"
+				aria-controls="spaceCondition">Space Condition</button>
+		</p>
+
+		<p class="d-inline-flex gap-1">
+			<button class="btn btn-primary" type="button"
+				data-bs-toggle="collapse" data-bs-target="#furniture"
+				aria-expanded="false"
+				aria-controls="furniture">Furniture</button>
+		</p>
+		
+
+
+
+		<!-- Space Use Code Table -->
+		<div class="container mt-5">
+			<div class="col-md-4 collapse card card-body" id="spaceUseCode">
+				<table id="spaceUseCodeTable" class="table " style="width: 100%">
+					<thead>
+						<tr>
+							<th colspan="3">Space Use Code Options</th>
+						</tr>
+						<tr>
+							<!-- <th>ID</th> -->
+							<th>Name</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="spaceUseCode : ${spaceUseCodeOptions}">
+							<!-- <td th:text="${spaceUseCode.id}"></td> -->
+							<td th:text="${spaceUseCode.value}"></td>
+							<td><a class="btn btn-danger btn-delete"
+								th:href="@{/spaceUseCode/delete/{id}(id=${spaceUseCode.id})}">
+									<i class="bi bi-trash"></i>Delete
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col">
+						<button class="btn btn-success btn-add" data-bs-toggle="modal"
+							data-bs-target="#addOptionModalSpaceUseCode">
+							<i class="bi bi-plus"></i>Add
+						</button>
+					</div>
+				</div>
+			</div>
+
+
+
+			<!-- Modal for SpaceUseCode -->
+			<div class="modal fade" id="addOptionModalSpaceUseCode" tabindex="-1"
+				aria-labelledby="addOptionModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addOptionModalLabel">Add Option
+								for Space Use Code</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<!-- Your generic form -->
+							<form id="addOptionForm" th:action="${addEndpointSpaceUseCode}"
+								method="post" th:object="${newDropdownOptionSpaceUseCode}">
+								<label>Name: </label> <input type="text" th:field="*{value}" />
+								<!-- Add more common fields as needed -->
+								<button class="btn btn-success" type="submit">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<!-- Space Condition Table -->
+		<div class="container mt-5">
+			<div class="col-md-4 collapse card card-body" id="spaceCondition">
+				<table id="spaceConditionTable" class="table" style="width: 100%">
+					<thead>
+						<tr>
+							<th colspan="3">Space Condition Options</th>
+						</tr>
+						<tr>
+							<!-- <th>ID</th> -->
+							<th>Name</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="spaceCondition : ${spaceConditionOptions}">
+							<!-- <td th:text="${spaceCondition.id}"></td> -->
+							<td th:text="${spaceCondition.value}"></td>
+							<td><a class="btn btn-danger btn-delete"
+								th:href="@{/spaceCondition/delete/{id}(id=${spaceCondition.id})}">
+									<i class="bi bi-trash"></i>Delete
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col">
+						<a class="btn btn-success btn-add" data-bs-toggle="modal"
+							data-bs-target="#addOptionModalSpaceCondition"> <i
+							class="bi bi-plus"></i>Add
+						</a>
+
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Modal for SpaceCondition-->
+			<div class="modal fade" id="addOptionModalSpaceCondition"
+				tabindex="-1" aria-labelledby="addOptionModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addOptionModalLabel">Add Option
+								for Space Condition</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<!-- Your generic form -->
+							<form id="addOptionForm" th:action="${addEndpointSpaceCondition}"
+								method="post" th:object="${newDropdownOptionSpaceCondition}">
+								<label>Name: </label> <input type="text" th:field="*{value}" />
+								<!-- Add more common fields as needed -->
+								<button class="btn btn-success" type="submit">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+		<!-- Furniture Table -->
+		<div class="container mt-5">
+			<div class="col-md-4 collapse card card-body" id="furniture">
+				<table id="furnitureTable" class="table " style="width: 100%">
+					<thead>
+						<tr>
+							<th colspan="3">Furniture Options</th>
+						</tr>
+						<tr>
+							<!-- <th>ID</th> -->
+							<th>Name</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="furniture : ${furnitures}">
+							<!-- <td th:text="${spaceUseCode.id}"></td> -->
+							<td th:text="${furniture.value}"></td>
+							<td><a class="btn btn-danger btn-delete"
+								th:href="@{/furniture/delete/{id}(id=${furniture.id})}"> <i
+									class="bi bi-trash"></i>Delete
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col">
+						<button class="btn btn-success btn-add" data-bs-toggle="modal"
+							data-bs-target="#addOptionModalFurniture">
+							<i class="bi bi-plus"></i>Add
+						</button>
+					</div>
+				</div>
+			</div>
+
+
+
+			<!-- Modal for SpaceUseCode -->
+			<div class="modal fade" id="addOptionModalFurniture" tabindex="-1"
+				aria-labelledby="addOptionModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addOptionModalLabel">Add Option
+								for Space Use Code</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<!-- Your generic form -->
+							<form id="addOptionForm" th:action="${addEndpointFurniture}"
+								method="post" th:object="${newDropdownOptionFurniture}">
+								<label>Name: </label> <input type="text" th:field="*{value}" />
+								<!-- Add more common fields as needed -->
+								<button class="btn btn-success" type="submit">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!--<div style="clear: both;"></div>-->
+
+		<script>
+			$(document).ready(
+					function() {
+						let spaceUseCodeTable = $('#spaceUseCodeTable')
+								.DataTable();
+						let spaceConditionTable = $('#spaceConditionTable')
+								.DataTable();
+						let furnitureTable = $('#furnitureTable').DataTable();
+						// Add other tables
+					});
+
+			var $myGroup = $('#myGroup');
+			$myGroup.on('show.bs.collapse', '.collapse', function() {
+				$myGroup.find('.collapse.show').collapse('hide');
+			});
+		</script>
+</div>
+
+</body>
+</html>

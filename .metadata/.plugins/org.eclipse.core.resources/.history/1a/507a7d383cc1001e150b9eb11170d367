@@ -1,0 +1,228 @@
+package edu.sru.group7.roomallocation.domain;
+
+import java.time.LocalDate;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.OneToOne;
+
+@Entity
+public class ClassRoomITFeatures {
+
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
+	
+	@OneToOne(fetch=FetchType.LAZY)
+    private Rooms rooms;
+	
+    private String zoom;
+    private String podiumStationType;
+    private String consoleCompModel;
+    private String consoleCompSpecs;
+    private String consoleCompWarranty;
+    private LocalDate consoleCompInstall; 
+    private Integer numberProj;
+    private String projDisplayType;
+    private String projModelNumber;
+    private String projIPAddresses;
+    private LocalDate projInstall; 
+    private String crestonModel;
+    private String crestonSerialNumber;
+    private String crestonIPAddress;
+    
+    @Enumerated(value=EnumType.STRING)
+    private AudioDesc audioDesc;
+    
+    private String voiceLift;
+    private Boolean docCam;
+    private String interWhiteBoards;
+    private LocalDate iwbInstall; 
+    @Lob
+    private String uniqueFeatures;
+    
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public Rooms getRooms() {
+		return rooms;
+	}
+	
+	public void setRooms(Rooms rooms) {
+		this.rooms = rooms;
+	}
+	
+	public String getZoom() {
+		return zoom;
+	}
+	
+	public void setZoom(String zoom) {
+		this.zoom = zoom;
+	}
+	
+	public String getPodiumStationType() {
+		return podiumStationType;
+	}
+	
+	public void setPodiumStationType(String podiumStationType) {
+		this.podiumStationType = podiumStationType;
+	}
+	
+	public String getConsoleCompModel() {
+		return consoleCompModel;
+	}
+	
+	public void setConsoleCompModel(String consoleCompModel) {
+		this.consoleCompModel = consoleCompModel;
+	}
+	
+	public String getConsoleCompSpecs() {
+		return consoleCompSpecs;
+	}
+	
+	public void setConsoleCompSpecs(String consoleCompSpecs) {
+		this.consoleCompSpecs = consoleCompSpecs;
+	}
+	
+	public String getConsoleCompWarranty() {
+		return consoleCompWarranty;
+	}
+	
+	public void setConsoleCompWarranty(String consoleCompWarranty) {
+		this.consoleCompWarranty = consoleCompWarranty;
+	}
+	
+	public LocalDate getConsoleCompInstall() {
+		return consoleCompInstall;
+	}
+	
+	public void setConsoleCompInstall(LocalDate consoleCompInstall) {
+		this.consoleCompInstall = consoleCompInstall;
+	}
+	
+	public Integer getNumberProj() {
+		return numberProj;
+	}
+	
+	public void setNumberProj(Integer numberProj) {
+		this.numberProj = numberProj;
+	}
+	
+	public String getProjDisplayType() {
+		return projDisplayType;
+	}
+	
+	public void setProjDisplayType(String projDisplayType) {
+		this.projDisplayType = projDisplayType;
+	}
+	
+	public String getProjModelNumber() {
+		return projModelNumber;
+	}
+	
+	public void setProjModelNumber(String projModelNumber) {
+		this.projModelNumber = projModelNumber;
+	}
+	
+	public String getProjIPAddresses() {
+		return projIPAddresses;
+	}
+	
+	public void setProjIPAddresses(String projIPAddresses) {
+		this.projIPAddresses = projIPAddresses;
+	}
+	
+	public LocalDate getProjInstall() {
+		return projInstall;
+	}
+	
+	public void setProjInstall(LocalDate projInstall) {
+		this.projInstall = projInstall;
+	}
+	
+	public String getCrestonModel() {
+		return crestonModel;
+	}
+	
+	public void setCrestonModel(String crestonModel) {
+		this.crestonModel = crestonModel;
+	}
+	
+	public String getCrestonSerialNumber() {
+		return crestonSerialNumber;
+	}
+	
+	public void setCrestonSerialNumber(String crestonSerialNumber) {
+		this.crestonSerialNumber = crestonSerialNumber;
+	}
+	
+	public String getCrestonIPAddress() {
+		return crestonIPAddress;
+	}
+	
+	public void setCrestonIPAddress(String crestonIPAddress) {
+		this.crestonIPAddress = crestonIPAddress;
+	}
+	
+	public AudioDesc getAudioDesc() {
+		return audioDesc;
+	}
+	
+	public void setAudioDesc(AudioDesc audioDesc) {
+		this.audioDesc = audioDesc;
+	}
+	
+	public String getVoiceLift() {
+		return voiceLift;
+	}
+	
+	public void setVoiceLift(String voiceLift) {
+		this.voiceLift = voiceLift;
+	}
+	
+	public Boolean getDocCam() {
+		return docCam;
+	}
+	
+	public void setDocCam(Boolean docCam) {
+		this.docCam = docCam;
+	}
+	
+	public String getInterWhiteBoards() {
+		return interWhiteBoards;
+	}
+	
+	public void setInterWhiteBoards(String interWhiteBoards) {
+		this.interWhiteBoards = interWhiteBoards;
+	}
+	
+	public LocalDate getIwbInstall() {
+		return iwbInstall;
+	}
+	
+	public void setIwbInstall(LocalDate iwbInstall) {
+		this.iwbInstall = iwbInstall;
+	}
+	
+	public String getUniqueFeatures() {
+		return uniqueFeatures;
+	}
+	
+	public void setUniqueFeatures(String uniqueFeatures) {
+		this.uniqueFeatures = uniqueFeatures;
+	}
+
+}
+

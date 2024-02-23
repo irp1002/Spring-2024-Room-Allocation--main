@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Option</title>
+</head>
+<body>
+    <h2>Add Option</h2>
+    
+    <form th:action="${addEndpoint}" method="post" th:object="${newDropdownOption}">
+        <!-- Common fields -->
+        <label>Name: </label>
+        <input type="text" th:field="*{value}" />
+        
+        <!-- Add more common fields as needed -->
+
+        <button type="submit">Submit</button>
+    </form>
+    
+    <a th:href="@{/list}">Back to List</a>
+</body>
+</html>

@@ -1,0 +1,9 @@
+package edu.sru.group7.roomallocation.repositories;
+
+import org.springframework.data.repository.CrudRepository;
+import edu.sru.group7.roomallocation.domain.ComputerLabIT;
+
+
+public interface ComputerLabITFeaturesRepository extends CrudRepository <ComputerLabITFeaturesRepository, Long>{
+
+}
